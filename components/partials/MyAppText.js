@@ -2,8 +2,11 @@ import React from "react"
 import { Text, StyleSheet } from "react-native"
 
 function MyAppText(props) {
+ 
+
+
   return (
-    <Text style={ styles.body }>
+    <Text style={styles.body}>
       {props.children}
     </Text>
   );
@@ -12,7 +15,7 @@ function MyAppText(props) {
 const styles = StyleSheet.create({
   body: {
     fontSize: 24,
-    color: "purple",
+    color: 'black',
   }
 })
 

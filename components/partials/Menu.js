@@ -47,20 +47,24 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow"
   },
   menu: {
-    minWidth: 100,
+    width: "100%",
     borderColor: "black",
     borderWidth: 1,
     zIndex: 2,
     position: 'absolute',
     left: 0,
     top: 50,
+    display: "flex",
+    flexDirection: 'column',
+    justifyContent: "space-between",
     backgroundColor: '#fffcf2',
   },
   menuItem: {
-    textAlign: 'right',
+    // textAlign: 'right',
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
     borderBottomWidth: 1,
+    width: "100%"
   },
 })
 export default Menu;

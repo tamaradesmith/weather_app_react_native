@@ -1,8 +1,11 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, } from 'react-native';
+import 'react-native-gesture-handler';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar} from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 
-import MyAppText from './components/partials/MyAppText'
-import NavBar from "./components/NavBar"
+import NavBar from "./components/NavBar";
+import Site from './components/Site';
+import AppNavigator from './components/partials/AppNavigator';
 
 const App = () => {
   return (
@@ -15,43 +18,15 @@ const App = () => {
         <ScrollView style={styles.body}>
 
           <View >
-            <MyAppText style={styles.main}>
-        
 
-           
-              <Text> MEOWs  </Text>
-              <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text>
-              <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
-              <Text > Meow Meow Me</Text>
-            </MyAppText>
+            {/* <Site /> */}
+            <Button
+              title="Site"
+              onPress={() =>
+                props.navigation.navigate('Site')
+              }
+            />
+
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -61,18 +36,11 @@ const App = () => {
 
 const styles = StyleSheet.create({
   body: {
-    fontSize: 54,
-    color: 'blue',
-    display: 'flex',
     backgroundColor: '#fffcf2',
   },
   nav: {
     width: '100%',
   },
-  main: {
-    display: "flex",
-    flexDirection: "column"
-  }
 });
 
 export default App;
