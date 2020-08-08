@@ -8,19 +8,50 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <NavBar />
-      <SafeAreaView>
-        <ScrollView>
+      <SafeAreaView >
+        <View style={styles.nav} >
+          <NavBar />
+        </View>
+        <ScrollView style={styles.body}>
 
           <View >
-           <MyAppText>
-          <Text style={{color: 'green'}}>
+            <MyAppText style={styles.main}>
+        
 
-            MEOW
-          </Text> 
-            <Text> Here is some text</Text>
-            <Text style={styles.body}> Meow Meow</Text>
-             </MyAppText>
+           
+              <Text> MEOWs  </Text>
+              <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text>
+              <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text> <Text> Here is some text</Text>
+              <Text > Meow Meow Me</Text>
+            </MyAppText>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -31,7 +62,16 @@ const App = () => {
 const styles = StyleSheet.create({
   body: {
     fontSize: 54,
-    color: 'blue'
+    color: 'blue',
+    display: 'flex',
+    backgroundColor: '#fffcf2',
+  },
+  nav: {
+    width: '100%',
+  },
+  main: {
+    display: "flex",
+    flexDirection: "column"
   }
 });
 

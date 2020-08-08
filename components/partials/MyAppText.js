@@ -12,7 +12,7 @@ function MyAppText(props) {
 const styles = StyleSheet.create({
   body: {
     fontSize: 24,
-    color: "purple"
+    color: "purple",
   }
 })
 

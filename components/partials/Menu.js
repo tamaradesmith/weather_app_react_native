@@ -2,22 +2,28 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 function Menu(props) {
-  const [hidden, setHidden] = useState(styles.display)
+  const [hidden, setHidden] = useState(true)
+
   function handlePress() {
-  setHidden ( hidden === styles.display ? styles.show : styles.display)
-  }
+    const mode = (hidden === true) ? false : true;
+    setHidden(mode)
+  };
+
   return (
     <View style={styles.body}>
+      <Text ></Text>
+      <Text style={styles.text} onPress={handlePress}> Menu</Text>
 
-      <Text style={styles.text} > Menu</Text>
-      <View id="menu" style={styles.menu, hidden}
-        onPress={handlePress}>
-        <Text style={styles.menuItem}> meowss</Text>
-        <Text style={styles.menuItem}> meowss </Text>
-        <Text style={styles.menuItem}> meows</Text>
-        <Text style={styles.menuItem}> meows</Text>
-        <Text style={styles.menuItem}> meows</Text>
+      {!hidden ? (
+      <View style={styles.menu}>
+        <Text style={styles.menuItem}> Site</Text>
+        <Text style={styles.menuItem}> Inside </Text>
+        <Text style={styles.menuItem}> Outside</Text>
+        <Text style={styles.menuItem}> Sign In</Text>
       </View>
+      ): null}
+
+
     </View>
   );
 };
@@ -26,29 +32,29 @@ const styles = StyleSheet.create({
   body: {
     minWidth: 100,
     padding: 10,
-    // borderColor: "black",
-    // borderWidth: 3,
-    // backgroundColor: "yellow",
   },
   text: {
     textAlign: 'right'
   },
-  display: {
-    display: "none"
+  test: {
+  },
+  hidden: {
+    display: "none",
+    backgroundColor: "red"
   },
   show: {
-    // display: ""
+    display: "flex",
+    backgroundColor: "yellow"
   },
   menu: {
     minWidth: 100,
     borderColor: "black",
     borderWidth: 1,
+    zIndex: 2,
     position: 'absolute',
     left: 0,
-    top: 30,
-    backgroundColor: "purple",
-    // padding: 5,
-    zIndex: 4,
+    top: 50,
+    backgroundColor: '#fffcf2',
   },
   menuItem: {
     textAlign: 'right',

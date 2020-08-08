@@ -11,7 +11,6 @@ function Navbar(props) {
         Weather_App
       </Text>
       <Text>
-        {/* Menu */}
         <Menu />
       </Text>
     </View>
@@ -29,6 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     fontSize: 30,
+
   },
 });
 export default Navbar;
