@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import Site from './Site';
+import Outside from './Outside';
+import Inside from './Inside';
+
 function Navbar(props) {
   const [hidden, setHidden] = useState(true)
+  const Stack = createStackNavigator();
 
   function handlePress() {
+
     setHidden((hidden === true) ? false : true)
-   };
+  };
+
+  function siteComp(){
+    return (<Site />)
+  }
 
   return (
     <View>
@@ -21,10 +34,29 @@ function Navbar(props) {
       </View>
       {!hidden ? (
         <View style={styles.menu}>
-          <Text style={styles.menuItem}> Site</Text>
-          <Text style={styles.menuItem}> Inside </Text>
-          <Text style={styles.menuItem}> Outside</Text>
-          <Text style={styles.menuItem}> Sign In</Text>
+   
+          <NavigationContainer>
+            
+              <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" component={siteComp} />
+                <Stack.Screen name="Details" component={Site} />
+              </Stack.Navigator>
+       
+            {/* <Stack.Navigator>
+              <Stack.Screen
+                name="Site"
+                component={siteComp}
+                options={{
+                  title: 'Site ANything?',
+                }}
+                style={styles.container}
+              />
+              <Stack.Screen name="Home" component={Site} />
+              {/* <Stack.Screen name="Site" component={Site} /> */}
+              {/* <Stack.Screen name="Inside" component={Inside} />
+              <Stack.Screen name="Outside" component={Outside} /> */}
+            {/* </Stack.Navigator> */} 
+          </NavigationContainer>
         </View>
       ) : null}
 
@@ -60,6 +92,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     width: "100%"
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 24
   },
 });
 

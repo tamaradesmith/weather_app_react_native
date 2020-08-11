@@ -8,6 +8,8 @@ target 'weather_app' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'weather_appTests' do
     inherit! :complete
     # Pods for testing

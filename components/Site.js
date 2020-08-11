@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+
+import Temperature from './ganges/Temperature'
 
 function Site(props) {
 
   return (
     
     <View style={styles.body}>
-      <Text >
-        Site
+      <Text style={styles.header}>
+        Site Name
       </Text>
+<View>
+
+        <Temperature size={30} />
+</View>
     </View>
 
   );
@@ -18,7 +24,10 @@ function Site(props) {
 const styles = StyleSheet.create({
   body: {
     fontSize: 24,
-    backgroundColor: "green"
+  },
+  header: {
+    fontSize: 35,
+    textAlign: "center",
   }
 })
 
