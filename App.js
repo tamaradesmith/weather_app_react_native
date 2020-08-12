@@ -1,6 +1,6 @@
 import React from 'react';
 // import 'react-native-gesture-handler';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar} from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 
@@ -15,7 +15,7 @@ import Site from './components/Site';
 const App = () => {
 
 
-  function goTo(){
+  function goTo() {
     alert('meow')
     navigation.navigate('Site')
   }
@@ -35,10 +35,13 @@ const App = () => {
               <AppNavigator />
             </NavigationContainer> */}
             <Site />
-          </View>
 
+          </View>
           <View>
-{/* 
+            <Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text>
+          </View>
+          <View>
+            {/* 
             <Button
               title="Site"
               onPress={() => navigation.navigate('Site')}
