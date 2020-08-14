@@ -1,10 +1,10 @@
 {
   "folders": [
 	{
-		"path": "../.."
+		"path": "../../weatherApp"
 	},
 	{
-		"path": "../../../../weatherApp"
+		"path": "."
 	}
 ],
   "settings": {}

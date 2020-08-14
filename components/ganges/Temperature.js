@@ -10,7 +10,7 @@ function Temperature(props) {
   const { widthSize, heightSize, displaySensors } = props;
 
   const [sensors, setSensors] = useState([]);
-const [message, setMessage] = useState('')
+
 
   const abortController = new AbortController();
 
@@ -23,34 +23,31 @@ const [message, setMessage] = useState('')
         const sensorInfo = await Sensor.getSensor(sensor.id)
         if (sensorInfo.location === "outside") {
           const readings = await Sensor.getHighLowReadings(sensor.id);
-          sensor.high = readings.high;
-          sensor.low = readings.low;
+          sensor.high = Math.round(readings.high);
+          sensor.low = Math.round(readings.low);
         }
         return sensor;
       })).catch(error => { console.log(error.message) })
     setSensors(list)
-
-
     return function cancel() {
       abortController.abort();
     };
-  }
+  };
 
   async function getReading(id) {
     const sensorReading = await Sensor.getReading(id)
-    return sensorReading.value
+    return Math.round(sensorReading.value)
   };
 
+  // console.log("getSensors -> sensors.length", sensors.length);
 
 
   useEffect(() => {
     if (displaySensors) {
       getSensors();
-    } else {
-
-    }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [displaySensors]);
 
 
   return (
@@ -81,12 +78,12 @@ const [message, setMessage] = useState('')
               sensors.map((sensor, index) => (
                 <>
                   <Text key={index} style={styles.textStyle}>
-                    {sensor.name}: {sensor.reading}
+                    {sensor.name}: {sensor.reading}°C
                   </Text>
                   {sensor.high ? (
                     <>
-                      <Text style={styles.textStyle}>High: {sensor.high} </Text>
-                      <Text style={styles.textStyle}>Low: {sensor.low} </Text>
+                      <Text style={styles.textStyle}>High: {sensor.high}°C </Text>
+                      <Text style={styles.textStyle}>Low: {sensor.low}°C </Text>
                     </>
                   ) : null}
                 </>
@@ -94,8 +91,8 @@ const [message, setMessage] = useState('')
             }
           </>
         ) : (
-          <Text> No Sensor</Text>
-        )}
+            <Text style={styles.textStyle}> No Sensor</Text>
+          )}
       </View>
     </View>
   );
@@ -107,6 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 5,
+    marginBottom: 50,
   },
   textStyle: {
     fontSize: 30,

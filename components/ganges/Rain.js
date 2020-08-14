@@ -12,13 +12,13 @@ function Rain(props) {
   async function getLastReading() {
     const sensorReading = await Sensor.getReading(displaySensors);
     const daily = await Sensor.getDayReadings(displaySensors);
-    setSensor({ sensor: displaySensors, reading: sensorReading.value, daily: daily.daily })
+    setSensor({ sensor: displaySensors, reading: sensorReading.value.toFixed(1), daily: daily.daily.toFixed(1) })
   }
   useEffect(() => {
     if (displaySensors) {
       getLastReading();
     }
-  }, [])
+  }, [displaySensors])
 
   return (
     <View style={styles.body}>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 5,
+    marginBottom: 50,
   },
   textStyle: {
     fontSize: 30,
@@ -60,5 +61,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
 });
+
+
 
 export default Rain;
