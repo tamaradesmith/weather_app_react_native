@@ -18,7 +18,6 @@ function Humidity(props) {
         return sensor
       }))
     setSensors(list)
-    console.log("getSensors -> list", list);
   }
 
   async function getReading(id) {
@@ -50,11 +49,10 @@ function Humidity(props) {
         <Text style={styles.header}>Humidity</Text>
         {sensors ? (
           <>
-            {sensors.map((sensor, index) => (
-              <>
-                <Text key={index} style={styles.textStyle}>{sensor.name}: {sensor.reading}% </Text>
-
-              </>
+            {sensors.map(sensor => (
+              <Text key={sensor.id} style={styles.textStyle}>
+                {sensor.name}: {sensor.reading}% 
+              </Text>
             ))}
           </>
         ) : (

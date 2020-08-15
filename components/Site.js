@@ -8,6 +8,7 @@ import Temperature from './ganges/Temperature';
 import Rain from './ganges/Rain';
 import Humidity from './ganges/Humidity';
 import Wind from './ganges/Wind';
+import Pressure from './ganges/Pressure';
 
 function Site(props) {
 
@@ -15,9 +16,7 @@ function Site(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('site');
-    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
-    console.log("getSiteSensors -> getSensors", getSensors);
   };
 
   useEffect(() => {
@@ -40,6 +39,9 @@ function Site(props) {
         </View>
         <View>
           <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />
+        </View>
+        <View>
+          <Pressure widthSize={175} heightSize={110} displaySensors={{name: 'pressure', id: siteSensors.pressureSensor}} />
         </View>
       </ScrollView>
     </View>

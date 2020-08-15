@@ -11,7 +11,6 @@ function Temperature(props) {
 
   const [sensors, setSensors] = useState([]);
 
-
   const abortController = new AbortController();
 
 
@@ -20,12 +19,14 @@ function Temperature(props) {
       displaySensors.map(async sensor => {
         const reading = await getReading(sensor.id);
         sensor.reading = reading
+    
         const sensorInfo = await Sensor.getSensor(sensor.id)
-        if (sensorInfo.location === "outside") {
+        if (sensorInfo.location === "outside" ) {
+          if (sensor.name !== "shade"){
           const readings = await Sensor.getHighLowReadings(sensor.id);
           sensor.high = Math.round(readings.high);
           sensor.low = Math.round(readings.low);
-        }
+        }}
         return sensor;
       })).catch(error => { console.log(error.message) })
     setSensors(list)
@@ -38,8 +39,6 @@ function Temperature(props) {
     const sensorReading = await Sensor.getReading(id)
     return Math.round(sensorReading.value)
   };
-
-  // console.log("getSensors -> sensors.length", sensors.length);
 
 
   useEffect(() => {
@@ -75,9 +74,9 @@ function Temperature(props) {
           <>
 
             {
-              sensors.map((sensor, index) => (
-                <>
-                  <Text key={index} style={styles.textStyle}>
+              sensors.map(sensor => (
+                <View key={(sensor.id)}>
+                  <Text  style={styles.textStyle}>
                     {sensor.name}: {sensor.reading}°C
                   </Text>
                   {sensor.high ? (
@@ -86,7 +85,7 @@ function Temperature(props) {
                       <Text style={styles.textStyle}>Low: {sensor.low}°C </Text>
                     </>
                   ) : null}
-                </>
+                </View>
               ))
             }
           </>

@@ -5,9 +5,9 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'rea
 // import { createStackNavigator } from '@react-navigation/stack';
 
 import NavBar from "./components/NavBar";
-import Site from './components/Site';
+// import Site from './components/Site';
 // import Inside from './components/Inside';
-// import Outside from './components/Outside';
+import Outside from './components/Outside';
 // import AppNavigator from './components/partials/AppNavigator';
 
 
@@ -34,7 +34,7 @@ const App = () => {
             {/* <NavigationContainer>
               <AppNavigator />
             </NavigationContainer> */}
-            <Site />
+            <Outside />
 
           </View>
           <View>
