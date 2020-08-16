@@ -11,13 +11,11 @@ import SkyColour from './ganges/SkyColour';
 
 function Outside(props) {
 
-
   const [siteSensors, setSiteSensors] = useState([]);
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('outside');
     setSiteSensors(getSensors);
-    console.log("getSiteSensors -> getSensors", getSensors);
   };
 
   useEffect(() => {
@@ -39,7 +37,7 @@ function Outside(props) {
           <Rain widthSize={150} heightSize={150} displaySensors={siteSensors.rainfallSensor} />
         </View>
         <View>
-          <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'humidily', id: siteSensors.humidilyInside }]} />
+          <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'humidily', id: siteSensors.humidily }]} />
         </View>
         <View>
           <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />

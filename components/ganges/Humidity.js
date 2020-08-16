@@ -7,6 +7,7 @@ import { Sensor } from '../../js/request';
 function Humidity(props) {
 
   const { widthSize, heightSize, displaySensors } = props;
+  console.log("Humidity -> displaySensors", displaySensors);
 
   const [sensors, setSensors] = useState([]);
 
@@ -22,7 +23,7 @@ function Humidity(props) {
 
   async function getReading(id) {
     const sensorReading = await Sensor.getReading(id);
-    return Math.round(sensorReading.value)
+    return sensorReading !== NaN ? Math.round(sensorReading.value) : '##'
   }
 
   useEffect(() => {
@@ -49,9 +50,9 @@ function Humidity(props) {
         <Text style={styles.header}>Humidity</Text>
         {sensors ? (
           <>
-            {sensors.map(sensor => (
-              <Text key={sensor.id} style={styles.textStyle}>
-                {sensor.name}: {sensor.reading}% 
+            {sensors.map((sensor, index) => (
+              <Text key={index} style={styles.textStyle}>
+                {sensor.name}: {sensor.reading}%
               </Text>
             ))}
           </>

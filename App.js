@@ -6,8 +6,8 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'rea
 
 import NavBar from "./components/NavBar";
 // import Site from './components/Site';
-// import Inside from './components/Inside';
-import Outside from './components/Outside';
+import Inside from './components/Inside';
+// import Outside from './components/Outside';
 // import AppNavigator from './components/partials/AppNavigator';
 
 
@@ -34,7 +34,7 @@ const App = () => {
             {/* <NavigationContainer>
               <AppNavigator />
             </NavigationContainer> */}
-            <Outside />
+            <Inside />
 
           </View>
           <View>

@@ -21,11 +21,10 @@ function SkyColour(props) {
         sensor.reading = reading
         colourReading[sensor.name] = reading;
         return sensor;
-      })).catch(error => { console.log(error.message) })
+      }))
+      .catch(error => { console.log('error ', error.message) })
     setSensors(list)
-    console.log("getSensors -> colourReading", colourReading);
-
-    console.log("getSensors -> list", list);
+    setColours(colourReading)
     return function cancel() {
       abortController.abort();
     };
@@ -36,8 +35,6 @@ function SkyColour(props) {
     return Math.round(sensorReading.value)
   };
 
-
-
   useEffect(() => {
     if (displaySensors) {
       getSensors();
@@ -47,15 +44,14 @@ function SkyColour(props) {
 
 
 
-
   return (
     <View style={styles.body}>
-    {colours.red ? (
+      {colours.red ? (
 
-      <View style={{ width: widthSize, height: heightSize, backgroundColor: `rgb(${colours.red}, ${colours.green}, ${colours.blue})` }}>
-      </View>
+        <View style={{ width: widthSize, height: heightSize, backgroundColor: `rgb(${colours.red}, ${colours.green}, ${colours.blue})` }}>
+        </View>
 
-    ): null}
+      ) : null}
 
       <Text style={styles.header}>SkyColour</Text>
     </View>

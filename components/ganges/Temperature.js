@@ -28,7 +28,7 @@ function Temperature(props) {
           sensor.low = Math.round(readings.low);
         }}
         return sensor;
-      })).catch(error => { console.log(error.message) })
+      })).catch(error => { console.log('error ', error.message) })
     setSensors(list)
     return function cancel() {
       abortController.abort();
