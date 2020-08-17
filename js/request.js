@@ -9,6 +9,7 @@ const Sensor = {
       return res.json();
     } catch (error) {
       console.log(error.message);
+      return error.message
     };
   },
   async getReading(id) {
@@ -19,6 +20,7 @@ const Sensor = {
       return res.json();
     } catch (error) {
       console.log(error.message)
+      return error.message
     }
   },
   async getHighLowReadings(id) {
@@ -29,6 +31,7 @@ const Sensor = {
       return res.json();
     } catch (error) {
       console.log("error message: ", error.message);
+      return error.message
     };
   },
   async getDayReadings(sensorId) {
@@ -39,6 +42,7 @@ const Sensor = {
       return res.json();
     } catch (error) {
       console.log(error.message);
+      return error.message
     };
   },
 }

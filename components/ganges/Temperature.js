@@ -4,12 +4,13 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { Sensor } from '../../js/request';
 
-// const colours = ['#57C4E5', '#B8F3FF', '#DEFFFC', '#F4F1BB', '#FFF07C', '#F5BB00', '#EC9F05', '#D76A03', '#BF3100', '#A30000'];
+const colours = ['#57C4E5', '#B8F3FF', '#DEFFFC', '#F4F1BB', '#FFF07C', '#F5BB00', '#EC9F05', '#D76A03', '#BF3100', '#A30000'];
 
 function Temperature(props) {
   const { widthSize, heightSize, displaySensors } = props;
 
   const [sensors, setSensors] = useState([]);
+  const [colour, setColour] = useState({ top: colours[0], bottom: colours[1] })
 
   const abortController = new AbortController();
 
@@ -19,14 +20,16 @@ function Temperature(props) {
       displaySensors.map(async sensor => {
         const reading = await getReading(sensor.id);
         sensor.reading = reading
-    
+
         const sensorInfo = await Sensor.getSensor(sensor.id)
-        if (sensorInfo.location === "outside" ) {
-          if (sensor.name !== "shade"){
-          const readings = await Sensor.getHighLowReadings(sensor.id);
-          sensor.high = Math.round(readings.high);
-          sensor.low = Math.round(readings.low);
-        }}
+        if (sensorInfo.location === "outside") {
+          if (sensor.name !== "shade") {
+            const readings = await Sensor.getHighLowReadings(sensor.id);
+            sensor.high = Math.round(readings.high);
+            sensor.low = Math.round(readings.low);
+            getColours(reading);
+          }
+        }
         return sensor;
       })).catch(error => { console.log('error ', error.message) })
     setSensors(list)
@@ -40,6 +43,41 @@ function Temperature(props) {
     return Math.round(sensorReading.value)
   };
 
+  function getColours(temperature) {
+    let colour;
+
+    if (temperature < -15) {
+      bottom = colours[0];
+      top = colours[0];
+    } else if (temperature < -10) {
+      top = colours[1];
+      bottom = colours[0];
+    } else if (temperature < 0) {
+      top = colours[2];
+      bottom = colours[1];
+    } else if (temperature < 5) {
+      top = colours[3];
+      bottom = colours[2];
+    } else if (temperature < 10) {
+      top = colours[4];
+      bottom = colours[3];
+    } else if (temperature < 15) {
+      top = colours[5];
+      bottom = colours[4];
+    } else if (temperature < 20) {
+      top = colours[6];
+      bottom = colours[5];
+    } else if (temperature < 25) {
+      top = colours[7];
+      bottom = colours[6];
+    } else {
+      top = colours[8];
+      bottom = colours[7];
+    };
+    setColour({ top, bottom })
+    console.log("getColours -> top", top);
+    console.log("getColours -> bottom", bottom);
+  }
 
   useEffect(() => {
     if (displaySensors) {
@@ -55,7 +93,7 @@ function Temperature(props) {
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 2 }}
-          colors={['red', 'yellow']}>
+          colors={[`${colour.top}`, `${colour.bottom}`]}>
           <Image
             source={require('../../image/thermometer.png')}
             style={{
@@ -74,9 +112,9 @@ function Temperature(props) {
           <>
 
             {
-              sensors.map(sensor => (
-                <View key={(sensor.id)}>
-                  <Text  style={styles.textStyle}>
+              sensors.map((sensor, index) => (
+                <View key={sensor.id || index}>
+                  <Text style={styles.textStyle}>
                     {sensor.name}: {sensor.reading}°C
                   </Text>
                   {sensor.high ? (

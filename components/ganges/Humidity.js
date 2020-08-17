@@ -6,9 +6,8 @@ import { Sensor } from '../../js/request';
 
 function Humidity(props) {
 
-  const { widthSize, heightSize, displaySensors } = props;
-  console.log("Humidity -> displaySensors", displaySensors);
-
+  const { widthSize, heightSize, displaySensors, flexDirection } = props;
+ 
   const [sensors, setSensors] = useState([]);
 
   async function getSensors() {
@@ -26,6 +25,7 @@ function Humidity(props) {
     return sensorReading !== NaN ? Math.round(sensorReading.value) : '##'
   }
 
+
   useEffect(() => {
     if (displaySensors) {
       getSensors();
@@ -33,7 +33,13 @@ function Humidity(props) {
   }, [displaySensors]);
 
   return (
-    <View style={styles.body}>
+    <View style={{
+      display: 'flex',
+      flexDirection: flexDirection || 'row',
+      justifyContent: 'space-around',
+      padding: 5,
+      marginBottom: 50,
+    }}>
       <View>
         <LinearGradient
           start={{ x: 0, y: 0 }}
@@ -65,13 +71,6 @@ function Humidity(props) {
 };
 
 const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 5,
-    marginBottom: 50,
-  },
   textStyle: {
     fontSize: 30,
     textTransform: "capitalize",

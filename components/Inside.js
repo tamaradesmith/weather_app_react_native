@@ -4,10 +4,8 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Display } from "../js/request";
 
 import Temperature from './ganges/Temperature';
-import Rain from './ganges/Rain';
 import Humidity from './ganges/Humidity';
-import Wind from './ganges/Wind';
-
+import AirQuality from './ganges/AirQuality';
 
 
 function Inside(props) {
@@ -15,7 +13,6 @@ function Inside(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('inside');
-    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
   };
 
@@ -36,14 +33,15 @@ function Inside(props) {
         </View>
 
         <View>
-          <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'humidily', id: siteSensors.humidily }]} />
+          <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'humidily', id: siteSensors.humidily }]} flexDirection={'row-reverse'} />
         </View>
         <View>
-          <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />
+          <AirQuality widthSize={200} heightSize={100} displaySensors={{ name: 'CO', id: siteSensors.co }}  />
         </View>
         <View>
+          <AirQuality widthSize={200} heightSize={100} displaySensors={{ name: 'particule', id: siteSensors.particule }} flexDirection={'row-reverse'} />
+        </View>
 
-        </View>
       </ScrollView>
     </View>
   );
@@ -55,6 +53,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 35,
     textAlign: 'center',
+    // flexDirection: 'row-reverse'
   },
 });
 
