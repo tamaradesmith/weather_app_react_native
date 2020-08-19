@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import styles from '../../styles/styles';
 import { Sensor } from '../../js/request';
+
 
 const colours = ['#57C4E5', '#B8F3FF', '#DEFFFC', '#F4F1BB', '#FFF07C', '#F5BB00', '#EC9F05', '#D76A03', '#BF3100', '#A30000'];
 
@@ -14,13 +16,11 @@ function Temperature(props) {
 
   const abortController = new AbortController();
 
-
   async function getSensors() {
     const list = await Promise.all(
       displaySensors.map(async sensor => {
         const reading = await getReading(sensor.id);
         sensor.reading = reading
-
         const sensorInfo = await Sensor.getSensor(sensor.id)
         if (sensorInfo.location === "outside") {
           if (sensor.name !== "shade") {
@@ -44,7 +44,7 @@ function Temperature(props) {
   };
 
   function getColours(temperature) {
-    let colour;
+
 
     if (temperature < -15) {
       bottom = colours[0];
@@ -75,12 +75,10 @@ function Temperature(props) {
       bottom = colours[7];
     };
     setColour({ top, bottom })
-    console.log("getColours -> top", top);
-    console.log("getColours -> bottom", bottom);
   }
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors[0].id !== undefined) {
       getSensors();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,26 +131,7 @@ function Temperature(props) {
       </View>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 5,
-    marginBottom: 50,
-  },
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-});
 
 export default Temperature;

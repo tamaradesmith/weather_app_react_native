@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Sensor } from '../../js/request';
 
+import styles from '../../styles/styles'
 
 function Humidity(props) {
 
@@ -27,7 +28,7 @@ function Humidity(props) {
 
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors !== undefined) {
       getSensors();
     }
   }, [displaySensors]);
@@ -69,18 +70,5 @@ function Humidity(props) {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-});
 
 export default Humidity

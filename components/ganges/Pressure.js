@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 
 import { Sensor } from '../../js/request';
+import styles from '../../styles/styles'
 
 function Pressure(props) {
 
@@ -22,7 +23,7 @@ function Pressure(props) {
 
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors.id !== undefined) {
       getSensor();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,24 +46,4 @@ function Pressure(props) {
   );
 };
 
-
-const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 5,
-    marginBottom: 50,
-  },
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-});
 export default Pressure;

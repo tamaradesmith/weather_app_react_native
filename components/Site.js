@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Display } from "../js/request";
+import styles from '../styles/styles';
+
 
 import Temperature from './ganges/Temperature';
 import Rain from './ganges/Rain';
@@ -16,6 +18,7 @@ function Site(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('site');
+    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
   };
 
@@ -27,7 +30,14 @@ function Site(props) {
   return (
     <View style={styles.body}>
       <ScrollView>
-        <Text style={styles.header}>Site Name</Text>
+
+        <Text style={styles.header}>
+          {siteSensors ? (
+           <> { siteSensors.site } </>
+          ) : (<>
+            Site </>
+            )}
+        </Text>
         <View>
           <Temperature widthSize={68} heightSize={300} displaySensors={[{ name: 'inside', id: siteSensors.temperatureInside }, { name: 'outside', id: siteSensors.temperatureOutside }]} />
         </View>
@@ -41,20 +51,11 @@ function Site(props) {
           <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />
         </View>
         <View>
-          <Pressure widthSize={175} heightSize={110} displaySensors={{name: 'pressure', id: siteSensors.pressureSensor}} />
+          <Pressure widthSize={175} heightSize={110} displaySensors={{ name: 'pressure', id: siteSensors.pressureSensor }} />
         </View>
       </ScrollView>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  body: {
-    fontSize: 24,
-  },
-  header: {
-    fontSize: 35,
-    textAlign: 'center',
-  },
-});
 
 export default Site;

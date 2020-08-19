@@ -1,97 +1,75 @@
 import React from 'react';
 // import 'react-native-gesture-handler';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaView, ScrollView, View, Text, StatusBar, Button } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+// import { useNavigation } from '@react-navigation/native';
+// import { navigationRef } from './RootNavigation';
+import { navigationRef } from './/components/partials/RootNavigations';
+
+
+import styles from './styles/styles';
 
 import NavBar from "./components/NavBar";
-// import Site from './components/Site';
-import Inside from './components/Inside';
 import Site from './components/Site';
+import Inside from './components/Inside';
 import Outside from './components/Outside';
-// import AppNavigator from './components/partials/AppNavigator';
+
+const Stack = createStackNavigator()
 
 
+// const navigationRef = React.createRef();
+
+
+// function navigate(name, params) {
+//   navigationRef.current && navigationRef.current.navigate(name, params);
+// }
 
 const App = () => {
-
-
-  function goTo() {
-    alert('meow')
-    navigation.navigate('Site')
-  }
 
 
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView >
-        <View style={styles.nav} >
-          <NavBar />
-        </View>
-        <ScrollView style={styles.body}>
+      <NavBar />
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator
+          initialRouteName="Site"
 
-          <View >
-            {/* <NavigationContainer>
-              <AppNavigator />
-            </NavigationContainer> */}
-            {/* <Outside /> */}
-            <Inside />
-
-          </View>
-          <View>
-            <Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text><Text> Meow </Text>
-          </View>
-          <View>
-            {/* 
-            <Button
-              title="Site"
-              onPress={() => navigation.navigate('Site')}
-            /> */}
-
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+          screenOptions={{
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#3e517a',
+            },
+            headerTintColor: '#fffcf2',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
+         
+          <Stack.Screen
+            name="Site"
+            component={Site}
+            options={{ title: 'Site' }}
+          />
+          <Stack.Screen
+            name="Inside"
+            component={Inside}
+            options={{ title: 'Inside' }}
+          />
+          <Stack.Screen
+            name="Outside"
+            component={Outside}
+            options={{ title: 'Outside' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  body: {
-    backgroundColor: '#fffcf2',
-    minHeight: "100%"
-  },
-  nav: {
-    width: '100%',
-  },
-});
 
 export default App;
 
-
-// import * as React from 'react';
-// import { View, Text } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-
-// function HomeScreen() {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
-
-// const Stack = createStackNavigator();
-
-// function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen name="Home" component={HomeScreen} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// export default App;

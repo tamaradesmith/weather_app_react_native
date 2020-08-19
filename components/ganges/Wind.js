@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, StyleSheet } from 'react-native';
+
 import { Sensor } from "../../js/request";
+import styles from '../../styles/styles'
 
 function Wind(props) {
 
@@ -29,7 +31,7 @@ function Wind(props) {
   };
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors[0].id !== undefined) {
       getSensors();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,34 +73,5 @@ function Wind(props) {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 5,
-    marginBottom: 50,
-  },
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-  image: {
-    position: 'absolute',
-    // left:
-    zIndex: -1,
-    height: 90,
-    width: 100,
-    transform: [{ rotate: '90deg' }]
-
-  }
-});
 
 export default Wind;

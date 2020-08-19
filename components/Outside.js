@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { Display } from "../js/request";
+import styles from '../styles/styles';
 
 import Temperature from './ganges/Temperature';
 import Rain from './ganges/Rain';
@@ -49,15 +50,7 @@ function Outside(props) {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  body: {
-    fontSize: 24,
-  },
-  header: {
-    fontSize: 35,
-    textAlign: 'center',
-  },
-});
+
 
 
 export default Outside;

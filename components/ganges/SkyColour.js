@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 
 import { Sensor } from "../../js/request";
+import styles from '../../styles/styles'
 
 function SkyColour(props) {
 
@@ -36,7 +37,7 @@ function SkyColour(props) {
   };
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors !== undefined) {
       getSensors();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,27 +58,5 @@ function SkyColour(props) {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 5,
-    marginBottom: 50,
-  },
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-
-});
-
 
 export default SkyColour;

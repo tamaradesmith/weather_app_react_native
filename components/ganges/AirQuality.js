@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { Sensor } from '../../js/request';
+import styles from '../../styles/styles'
 
 
 const rating = [{ level: 'Hazardous', colour: "#6B0F1A", background: '#6b0f1a80' },
@@ -13,14 +14,12 @@ const rating = [{ level: 'Hazardous', colour: "#6B0F1A", background: '#6b0f1a80'
 
 function AirQuality(props) {
   const { widthSize, heightSize, displaySensors, flexDirection } = props;
-  console.log("AirQuality -> displaySensors", displaySensors);
 
   const [sensor, setSensor] = useState([])
 
   async function getReading() {
     const reading = await Sensor.getReading(displaySensors.id);
     displaySensors.reading = reading.value;
-    console.log("getReading -> displaySensors", displaySensors);
     const colour = setLevelInfo(reading.value);
     displaySensors.colour = colour;
     setSensor(displaySensors)
@@ -46,7 +45,7 @@ function AirQuality(props) {
   }
 
   useEffect(() => {
-    if (displaySensors) {
+    if (displaySensors.id !== undefined) {
       getReading();
     }
   }, [displaySensors]);
@@ -76,17 +75,5 @@ function AirQuality(props) {
   );
 };
 
-const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 30,
-    textTransform: "capitalize",
-  },
-  header: {
-    fontSize: 40,
-    fontWeight: '700',
-    marginBottom: 10,
-    textTransform: "capitalize",
-  },
-});
 
 export default AirQuality;

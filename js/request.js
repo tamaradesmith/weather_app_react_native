@@ -2,6 +2,9 @@ const BASE_URL = 'http://localhost:4000';
 
 const Sensor = {
   async getSensor(id) {
+    if (id === undefined){
+      return null;
+    }
     try {
       const res = await fetch(`${BASE_URL}/sensors/${id}`, {
         credentials: 'include',
