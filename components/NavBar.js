@@ -22,10 +22,10 @@ function Navbar(props) {
     <View>
 
       <View style={styles.bar}>
-        <Text>
+        <Text style={styles.navBarText}>
           Weather_App
       </Text>
-        <Text>
+        <Text style={styles.navBarText}>
           <Text style={styles.text} onPress={handlePress}>Menu</Text>
         </Text>
 
@@ -33,6 +33,11 @@ function Navbar(props) {
       </View>
       {!hidden ? (
         <View style={styles.menu}>
+
+          <TouchableOpacity onPress={() => route('Home')} style={styles.button}>
+            <Text style={styles.buttonText}>Home </Text>
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={() => route('Site')} style={styles.button}>
             <Text style={styles.buttonText}>Site </Text>
           </TouchableOpacity>

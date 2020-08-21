@@ -61,7 +61,29 @@ const Display = {
       console.log(error.message)
       return error.message;
     }
-  }
+  },
 };
 
-export { Sensor, Display }
+const User = {
+  async login(user) {
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user)
+    }).catch(err => {
+      console.log("this is an error", err);
+    });
+    return res.json();
+  },
+  async getUser() {
+    const res = await fetch(`${BASE_URL}/auth/`, {
+      credentials: 'include',
+    });
+    return res.json();
+  },
+};
+
+export { Sensor, Display, User }

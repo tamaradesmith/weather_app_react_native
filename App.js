@@ -15,6 +15,8 @@ import NavBar from "./components/NavBar";
 import Site from './components/Site';
 import Inside from './components/Inside';
 import Outside from './components/Outside';
+import Home from './components/Home';
+import SignIn from './components/partials/SignIn';
 
 const Stack = createStackNavigator()
 
@@ -35,7 +37,7 @@ const App = () => {
       <NavBar />
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
-          initialRouteName="Site"
+          initialRouteName="Home"
 
           screenOptions={{
             headerTitleAlign: 'center',
@@ -48,7 +50,16 @@ const App = () => {
             },
           }}
         >
-         
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ title: 'Home' }}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{ title: 'Sign In' }}
+          />
           <Stack.Screen
             name="Site"
             component={Site}
