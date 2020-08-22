@@ -14,6 +14,7 @@ import Inside from './components/Inside';
 import Outside from './components/Outside';
 import Home from './components/Home';
 import Login from './components/partials/Login';
+import Chart from './components/Chart';
 
 const Stack = createStackNavigator()
 
@@ -66,6 +67,11 @@ const App = () => {
             name="Outside"
             component={Outside}
             options={{ title: 'Outside' }}
+          />
+          <Stack.Screen
+            name="Chart"
+            component={Chart}
+            options={{ title: 'Chart' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

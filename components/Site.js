@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+
+import * as RootNavigation from './partials/RootNavigations';
 
 import { Display } from "../js/request";
 import styles from '../styles/styles';
@@ -18,7 +20,6 @@ function Site(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('site');
-    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
   };
 
@@ -33,28 +34,35 @@ function Site(props) {
 
         <Text style={styles.header}>
           {siteSensors ? (
-           <> { siteSensors.site } </>
+            <> {siteSensors.site} </>
           ) : (<>
             Site </>
             )}
         </Text>
         <View>
-          <Temperature widthSize={68} heightSize={300} displaySensors={[{ name: 'inside', id: siteSensors.temperatureInside }, { name: 'outside', id: siteSensors.temperatureOutside }]} />
+          <TouchableOpacity onPress={() => RootNavigation.navigate('Chart', {
+            sensors: 
+            [{ name: 'inside', id: siteSensors.temperatureInside }, { name: 'outside', id: siteSensors.temperatureOutside }]}
+          )
+          }>
+
+            <Temperature widthSize={68} heightSize={300} displaySensors={[{ name: 'inside', id: siteSensors.temperatureInside }, { name: 'outside', id: siteSensors.temperatureOutside }]} />
+          </TouchableOpacity>
         </View>
-        <View>
-          <Rain widthSize={150} heightSize={150} displaySensors={siteSensors.rainfallSensor} />
-        </View>
-        <View>
-          <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'inside', id: siteSensors.humidilyInside }, { name: 'outside', id: siteSensors.humidilyOutside }]} />
-        </View>
-        <View>
-          <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />
-        </View>
-        <View>
-          <Pressure widthSize={175} heightSize={110} displaySensors={{ name: 'pressure', id: siteSensors.pressureSensor }} />
-        </View>
+      <View>
+        <Rain widthSize={150} heightSize={150} displaySensors={siteSensors.rainfallSensor} />
+      </View>
+      <View>
+        <Humidity widthSize={150} heightSize={150} displaySensors={[{ name: 'inside', id: siteSensors.humidilyInside }, { name: 'outside', id: siteSensors.humidilyOutside }]} />
+      </View>
+      <View>
+        <Wind widthSize={150} heightSize={150} displaySensors={[{ name: 'direction', id: siteSensors.windDirection }, { name: 'speed', id: siteSensors.windSpeed }]} />
+      </View>
+      <View>
+        <Pressure widthSize={175} heightSize={110} displaySensors={{ name: 'pressure', id: siteSensors.pressureSensor }} />
+      </View>
       </ScrollView>
-    </View>
+    </View >
   );
 }
 

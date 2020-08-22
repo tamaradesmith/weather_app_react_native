@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Button, TouchableOpacity } from "react-native";
+import { Text, View,  TouchableOpacity } from "react-native";
 import * as RootNavigation from './partials/RootNavigations';
 
 import styles from '../styles/styles';
@@ -13,7 +13,6 @@ function Navbar(props) {
   };
 
   function route(location) {
-    // alert("click")
     RootNavigation.navigate(location);
     setHidden((hidden === true) ? false : true);
   }
