@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#3e517a6c',
     borderBottomWidth: 1,
+    alignSelf: "center",
   },
   buttonText: {
     color: 'black',
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
     textTransform: "capitalize",
+    marginVertical: 10,
   },
   textField: {
     borderWidth: 2,
@@ -95,9 +97,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonSubmit: {
-    width: 100,
-    backgroundColor: 'green'
-
+    paddingVertical: 10,
+    marginTop: 15,
+    width: '70%',
+    backgroundColor: '#3e517a6c',
+    borderBottomWidth: 1,
+    alignSelf: "center",
+  },
+  error: {
+    color: 'red',
+    fontSize: 24,
+    textAlign:'center',
   }
 });
 

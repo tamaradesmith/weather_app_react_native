@@ -76,7 +76,7 @@ const User = {
     }).catch(err => {
       console.log("this is an error", err);
     });
-    return res.json();
+    return res.json()
   },
   async getUser() {
     const res = await fetch(`${BASE_URL}/auth/`, {

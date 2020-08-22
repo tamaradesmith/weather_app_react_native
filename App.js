@@ -1,11 +1,8 @@
-import React from 'react';
-// import 'react-native-gesture-handler';
-import { SafeAreaView, ScrollView, View, Text, StatusBar, Button } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StatusBar } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { useNavigation } from '@react-navigation/native';
-// import { navigationRef } from './RootNavigation';
 import { navigationRef } from './/components/partials/RootNavigations';
 
 
@@ -16,20 +13,13 @@ import Site from './components/Site';
 import Inside from './components/Inside';
 import Outside from './components/Outside';
 import Home from './components/Home';
-import SignIn from './components/partials/SignIn';
+import Login from './components/partials/Login';
 
 const Stack = createStackNavigator()
 
-
-// const navigationRef = React.createRef();
-
-
-// function navigate(name, params) {
-//   navigationRef.current && navigationRef.current.navigate(name, params);
-// }
-
 const App = () => {
 
+  const [user, setUser] = useState('guest')
 
   return (
     <>
@@ -53,12 +43,14 @@ const App = () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{ title: 'Home' }}
+            options={{ title: 'Homes', user:user }}
+            screenProps={{ user: user }}
+
           />
           <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-            options={{ title: 'Sign In' }}
+            name="Login"
+            component={Login}
+            options={{ title: 'Log In' }}
           />
           <Stack.Screen
             name="Site"

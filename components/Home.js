@@ -1,11 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from '../styles/styles';
 
 function Home(props) {
-  console.log("Home -> props", props);
+
+  const [user, setUser] = useState('')
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user')
+      console.log("getData -> value", value);
+      setUser(value !== null ? value : 'guest')
+      return value;
+    } catch (e) {
+      // error reading value
+    }
+  }
+
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('user');
+      setUser('guest')
+    } catch (e) {
+      // remove error
+    }
+    console.log('Done.')
+  }
+
+
+  const handleLogout = async () => {
+    removeValue();
+  };
+
+  useEffect(() => {
+    getData()
+  }, [user])
 
   return (
     <View style={styles.mainBody}>
@@ -23,15 +55,25 @@ function Home(props) {
           }} />
         </LinearGradient>
       </View>
+      <Text style={ styles.centre}> {user} </Text>
 
       <View>
+        {user === 'guest' ? (
 
-        <TouchableOpacity onPress={() => props.navigation.navigate('SignIn')} style={styles.button}>
-          <Text style={styles.buttonText}>SignIn </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Login',
+            {
+              onNavigateBack: () => {setUser('new')},
+            })}
+            style={styles.buttonSubmit}>
+            <Text style={styles.buttonText}>Log In </Text>
+          </TouchableOpacity>
+        ) : (
+            <TouchableOpacity onPress={handleLogout} style={styles.buttonSubmit}>
+              <Text style={styles.buttonText}>Log Out </Text>
+            </TouchableOpacity>
+          )}
 
       </View>
-        <Text style={styles.textStyle, styles.centre}> Guest </Text>
 
     </View>
   );

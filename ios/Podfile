@@ -10,6 +10,8 @@ target 'weather_app' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'weather_appTests' do
     inherit! :complete
     # Pods for testing
