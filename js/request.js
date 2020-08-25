@@ -2,7 +2,7 @@ const BASE_URL = 'http://localhost:4000';
 
 const Sensor = {
   async getSensor(id) {
-    if (id === undefined){
+    if (id === undefined) {
       return null;
     }
     try {
@@ -46,6 +46,16 @@ const Sensor = {
     } catch (error) {
       console.log(error.message);
       return error.message
+    };
+  },
+  async getReadings(sensorId, period) {
+    try {
+      const res = await fetch(`${BASE_URL}/sensors/${sensorId}/${period}`, {
+        credentials: 'include',
+      });
+      return res.json();
+    } catch (error) {
+      console.error(error.message);
     };
   },
 }
