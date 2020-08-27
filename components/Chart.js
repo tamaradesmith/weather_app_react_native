@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 
 import Line from './charts/Line'
-import BarChart from './charts/BarChart'
+import Bar from './charts/Bar'
 import styles from '../styles/styles';
 
 import chartStyles from '../styles/chartStyles'
@@ -22,8 +22,13 @@ function Chart(props) {
     try {
       const sensorInfo = await Sensor.getSensor(id);
       const sensor = active;
-      const chart = (sensorInfo.chart) ? sensorInfo.chart : "line";
-      // sensor.chart = 'line';
+      let chart;
+      if (sensorInfo.mix){
+        chart = sensorInfo.mix;
+      } else {
+        chart = (sensorInfo.chart) ? sensorInfo.chart : "line";
+      }
+      sensor.chart = chart;
       setActive(sensor);
       getData(id);
     } catch (error) {
@@ -41,13 +46,13 @@ function Chart(props) {
   }
 
   useEffect(() => {
-    if (sensors){
+    if (sensors) {
       setActive({ name: sensors[0].name, id: sensors[0].id })
     }
   }, [sensors]);
 
   useEffect(() => {
-    if (active.id !== undefined){
+    if (active.id !== undefined) {
       getSensor(active.id);
     }
   }, [active]);
@@ -70,8 +75,12 @@ function Chart(props) {
         </View>
 
         <View>
+{active.chart === 'line' ? (
 
-          <Text> <Line sensor={active} data={data} /> </Text>
+          <Line sensor={active} data={data} />
+): (
+  <Bar sensor={active} data={data} />
+)}
         </View>
       </ScrollView>
     </View>

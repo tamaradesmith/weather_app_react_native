@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Dimensions } from 'react-native';
-import { LineChart } from 'react-native-chart-kit'
+import React, { useState, useEffect } from 'react';
+
+import { View, Text, Dimensions } from 'react-native'
+import { BarChart } from 'react-native-chart-kit';
 
 import { format } from 'date-fns';
 
-function Line(props) {
+
+function Bar(props) {
+
   const { sensor, data } = props
+  console.log("Bar -> data", data);
 
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,24 +20,27 @@ function Line(props) {
     const result = [];
     // const skip = []
     data.forEach((reading, index) => {
-      if (reading.value === null) {
+      if (reading.sum === null) {
         // skip.push(index)
-        reading.value = 0
+        reading.sum = 0
       }
-      result.push(parseFloat(reading.value));
+      result.push(parseFloat(reading.sum));
+      console.log("formateData -> result", result);
       labels.push(format(new Date(reading.time), "ha"));
     });
     const datas = {
       labels: labels,
       datasets: [
         {
-          stroleWidth: 2,
+          
           data: result,
           // hidePointsAtIndex: skip,
         }
-      ]
+      ],
+      barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
     };
     setDataset(datas);
+    console.log("formateData -> datas", datas.datasets);
     setTimeout(() => {
 
       setLoading(false);
@@ -48,35 +55,33 @@ function Line(props) {
 
   if (loading) {
     return (
-      <Text> Loading </Text>
+      <Text> loading</Text>
     )
   } else {
+
     return (
+
       <View>
-        <LineChart
+        <BarChart
           data={dataset}
           width={(Dimensions.get('window').width) - 5}
           height={400}
-          withOuterLines={true}
-          withShadow={false}
-          xAxisInterval= {'3'}
           verticalLabelRotation={90}
-          withInnerLines={false}
-          withDots={false}
-          yLabelsOffset={25}
+          fromZero={true}
+          showValuesOnTopOfBars={true}
+          showBarTops={false}
           chartConfig={{
             backgroundGradientFrom: '#fffcf2',
             backgroundGradientTo: '#fffcf2',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `#3e517a`,
+            fillShadowGradient: '#3e517a',
+            fillShadowGradientOpacity: 1,
+            barPercentage: .3,
+            decimalPlaces: 1,
+            color: (opacity = 1) => `black`,
             style: {
               padding: 1,
               margin: 0,
             }
-          }}
-          bezier
-          style={{
-            borderRadius: 16
           }}
         />
       </View>
@@ -84,4 +89,4 @@ function Line(props) {
   }
 };
 
-export default Line
+export default Bar
