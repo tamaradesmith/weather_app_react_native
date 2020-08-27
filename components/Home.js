@@ -12,7 +12,6 @@ function Home(props) {
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('user')
-      console.log("getData -> value", value);
       setUser(value !== null ? value : 'guest')
       return value;
     } catch (e) {

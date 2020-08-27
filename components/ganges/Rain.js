@@ -19,7 +19,6 @@ function Rain(props) {
   };
 
   useEffect(() => {
-    console.log("Rain -> displaySensors", displaySensors);
     if (displaySensors !== undefined) {
       getLastReading();
     };

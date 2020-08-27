@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 
-import LineChart from './charts/LineChart'
+import Line from './charts/Line'
 import BarChart from './charts/BarChart'
 import styles from '../styles/styles';
 
@@ -19,36 +19,50 @@ function Chart(props) {
   const sensors = props.route.params.sensors;
 
   async function getSensor(id) {
-    const sensorInfo = await Sensor.getSensor(id);
-    // const chart = (sensorInfo.chart) ? sensorInfo.chart : "line";
-    active.chart = 'line';
-    getData(id);
+    try {
+      const sensorInfo = await Sensor.getSensor(id);
+      const sensor = active;
+      const chart = (sensorInfo.chart) ? sensorInfo.chart : "line";
+      // sensor.chart = 'line';
+      setActive(sensor);
+      getData(id);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   async function getData(id) {
-    const readings = await Sensor.getReadings(id, 1);
-    setData(readings);
+    try {
+      const readings = await Sensor.getReadings(id, 1);
+      setData(readings);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   useEffect(() => {
-    setActive({ name: sensors[0].name, id: sensors[0].id })
+    if (sensors){
+      setActive({ name: sensors[0].name, id: sensors[0].id })
+    }
   }, [sensors]);
 
   useEffect(() => {
-    getSensor(active.id);
+    if (active.id !== undefined){
+      getSensor(active.id);
+    }
   }, [active]);
 
 
 
   return (
-    <View>
+    <View style={styles.mainBody}>
       <ScrollView>
 
         <Text style={styles.header}> {active.name} </Text>
         <View style={chartStyles.buttonView}>
 
           {sensors.map(sensor => (
-            <TouchableOpacity key={'button' , sensor.id} onPress={() => setActive({ name: sensor.name, id: sensor.id })} style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
+            <TouchableOpacity key={'button', sensor.id} onPress={() => setActive({ name: sensor.name, id: sensor.id })} style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
               <Text style={chartStyles.buttonText}> {sensor.name}</Text>
             </TouchableOpacity>
           ))}
@@ -57,7 +71,7 @@ function Chart(props) {
 
         <View>
 
-          <Text> <LineChart sensor={active} data={data} /> </Text>
+          <Text> <Line sensor={active} data={data} /> </Text>
         </View>
       </ScrollView>
     </View>
