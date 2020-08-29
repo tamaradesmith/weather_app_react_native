@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Dimensions } from 'react-native';
+import { Text, View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit'
 
 import { format } from 'date-fns';
@@ -35,9 +35,8 @@ function Line(props) {
     };
     setDataset(datas);
     setTimeout(() => {
-
       setLoading(false);
-    }, 100);
+    }, 150);
   };
 
   useEffect(() => {
@@ -47,22 +46,23 @@ function Line(props) {
   }, [data]);
 
   if (loading) {
-    return (
-      <Text> Loading </Text>
-    )
-  } else {
-    return (
-      <View>
+    return (<Text> Loading </Text>)
+  }
+
+  return (
+    <View>
+
         <LineChart
           data={dataset}
           width={(Dimensions.get('window').width) - 5}
           height={400}
           withOuterLines={true}
           withShadow={false}
-          xAxisInterval= {'3'}
+          xAxisInterval={'3'}
           verticalLabelRotation={90}
           withInnerLines={false}
           withDots={false}
+
           yLabelsOffset={25}
           chartConfig={{
             backgroundGradientFrom: '#fffcf2',
@@ -80,8 +80,7 @@ function Line(props) {
           }}
         />
       </View>
-    );
-  }
+  );
 };
 
 export default Line

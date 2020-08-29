@@ -44,7 +44,7 @@ const App = () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{ title: 'Homes', user:user }}
+            options={{ title: 'Home', user:user }}
             screenProps={{ user: user }}
 
           />

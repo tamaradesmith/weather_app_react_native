@@ -25,7 +25,7 @@ function Bar(props) {
         reading.sum = 0
       }
       result.push(parseFloat(reading.sum));
-      console.log("formateData -> result", result);
+      console.log("formateData Bar -> result", result);
       labels.push(format(new Date(reading.time), "ha"));
     });
     const datas = {
@@ -40,11 +40,10 @@ function Bar(props) {
       barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
     };
     setDataset(datas);
-    console.log("formateData -> datas", datas.datasets);
     setTimeout(() => {
 
       setLoading(false);
-    }, 100);
+    }, 150);
   };
 
   useEffect(() => {
