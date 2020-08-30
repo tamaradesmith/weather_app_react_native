@@ -41,7 +41,7 @@ function Home(props) {
   return (
     <View style={styles.mainBody}>
       <View>
-        <Text style={styles.header}> Weather App</Text>
+        <Text style={styles.homeHeader}> Weather App</Text>
       </View>
 
       <View style={{ width: 300, marginHorizontal: 'auto', alignSelf: "center", marginTop: 50, }}>
@@ -54,7 +54,7 @@ function Home(props) {
           }} />
         </LinearGradient>
       </View>
-      <Text style={ styles.centre}> {user} </Text>
+      <Text style={styles.userText}> {user} </Text>
 
       <View>
         {user === 'guest' ? (
@@ -62,7 +62,7 @@ function Home(props) {
           <TouchableOpacity onPress={() => props.navigation.navigate('Login',
             {
               onNavigateBack: () => {setUser('new')},
-            })}
+            })} 
             style={styles.buttonSubmit}>
             <Text style={styles.buttonText}>Log In </Text>
           </TouchableOpacity>

@@ -1,15 +1,20 @@
 import { StyleSheet } from 'react-native';
 
+const main = '#3e517a';
+const shadow = '#3e517a6c'
+const secondary = '#fffcf2';
+
+
 const styles = StyleSheet.create({
   mainBody: {
-    backgroundColor: '#fffcf2',
+    backgroundColor: secondary,
     minHeight: "100%"
   },
   nav: {
     width: '100%',
   },
   body: {
-    backgroundColor: '#fffcf2',
+    backgroundColor: secondary,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -27,8 +32,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: "capitalize",
   },
+  homeHeader: {
+    fontSize: 40,
+    color: main,
+    fontWeight: '700',
+    marginBottom: 10,
+    textAlign: 'center',
+    textTransform: "capitalize",
+  },
   bar: {
-    backgroundColor: '#3e517a',
+    backgroundColor: main,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -45,7 +58,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: 'column',
     flexWrap: 'wrap',
-    backgroundColor: '#3e517a6c',
+    backgroundColor: shadow,
   },
   menuItem: {
     fontSize: 20,
@@ -56,11 +69,11 @@ const styles = StyleSheet.create({
   },
   navBarText: {
     fontSize: 20,
-    color: '#fffcf2',
+    color: secondary,
   },
   container: {
     flex: 1,
-    backgroundColor: '#fffcf2',
+    backgroundColor: secondary,
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 24
@@ -68,12 +81,12 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 10,
     width: '100%',
-    backgroundColor: '#3e517a6c',
+    backgroundColor: shadow,
     borderBottomWidth: 1,
     alignSelf: "center",
   },
   buttonText: {
-    color: 'black',
+    color: secondary,
     textAlign: 'center',
     fontSize: 18,
   },
@@ -82,6 +95,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textTransform: "capitalize",
     marginVertical: 10,
+  },
+  userText: {
+    textAlign: "center",
+    fontSize: 30,
+    color: main,
+    textTransform: "capitalize",
+    marginVertical: 8,
   },
   textField: {
     borderWidth: 2,
@@ -100,7 +120,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: 15,
     width: '70%',
-    backgroundColor: '#3e517a6c',
+    backgroundColor: main,
     borderBottomWidth: 1,
     alignSelf: "center",
   },

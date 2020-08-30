@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { navigationRef } from './/components/partials/RootNavigations';
 
 
@@ -16,7 +17,8 @@ import Home from './components/Home';
 import Login from './components/partials/Login';
 import Chart from './components/Chart';
 
-const Stack = createStackNavigator()
+const Tab = createMaterialTopTabNavigator()
+const Stact = createStackNavigator()
 
 const App = () => {
 
@@ -27,7 +29,7 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <NavBar />
       <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator
+        <Tab.Navigator
           initialRouteName="Home"
 
           screenOptions={{
@@ -41,39 +43,39 @@ const App = () => {
             },
           }}
         >
-          <Stack.Screen
+          <Tab.Screen
             name="Home"
             component={Home}
             options={{ title: 'Home', user:user }}
             screenProps={{ user: user }}
 
           />
-          <Stack.Screen
+          <Tab.Screen
             name="Login"
             component={Login}
             options={{ title: 'Log In' }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="Site"
             component={Site}
             options={{ title: 'Site' }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="Inside"
             component={Inside}
             options={{ title: 'Inside' }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="Outside"
             component={Outside}
             options={{ title: 'Outside' }}
           />
-          <Stack.Screen
+          {/* <Tab.Screen
             name="Chart"
             component={Chart}
             options={{ title: 'Chart' }}
-          />
-        </Stack.Navigator>
+          /> */}
+        </Tab.Navigator>
       </NavigationContainer>
     </>
   );

@@ -13,7 +13,7 @@ import { Sensor } from '../js/request';
 
 function Chart(props) {
 
-  const sensors = props.route.params.sensors;
+  const sensors = props.route.params.sensors ;
 
   const [active, setActive] = useState({});
   const [data, setData] = useState([]);
@@ -33,6 +33,7 @@ function Chart(props) {
         chart = (sensorInfo.chart) ? sensorInfo.chart : "line";
       }
       active.chart = chart;
+      active.type = sensorInfo.type
       // setActive(sensor);
       getData(id, period);
       setTimeout(() => {
@@ -48,58 +49,60 @@ function Chart(props) {
       const readings = await Sensor.getReadings(id, period);
       setData(readings);
     } catch (error) {
-      console.error(error.message);
+      console.error("getData ", error.message);
     }
   }
 
-  function handlePeriod(period) {
-    if (!loading) {
-      console.log("handlePeriod -> period", period);
-      alert(period)
-    }
-    // setCurrentPeriod(period);
-    // getData(active.id, period);
+  function changePeriod() {
+    getData(active.id, currentPeriod);
   }
 
   useEffect(() => {
-    console.log('sensors')
     if (sensors) {
-      setActive({ name: sensors[0].name, id: sensors[0].id, chart: 'line' })
+      setActive({ name: sensors[0].name, id: sensors[0].id, chart: 'line', type: '' })
     }
   }, [sensors]);
 
   useEffect(() => {
-    console.log('active')
     if (active.id !== undefined) {
       setLoading(true)
       getSensor(active.id, 1);
     }
   }, [active]);
 
-  console.log(active.chart === 'line')
+  useEffect(() => {
+    changePeriod()
+  }, [currentPeriod])
 
   return (
     <View style={styles.mainBody}>
       <ScrollView>
 
-        <Text style={styles.header}> {active.name} </Text>
-
-
 
         <View style={chartStyles.buttonView}>
 
+          <Text style={chartStyles.header}> {active.type} </Text>
           {sensors.map(sensor => (
-            <TouchableOpacity key={'button', sensor.id} onPress={() => setActive({ name: sensor.name, id: sensor.id })} style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
+            <TouchableOpacity
+              key={'button', sensor.id}
+              onPress={() => setActive({ name: sensor.name, id: sensor.id })}
+              style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
+
               <Text style={chartStyles.buttonText}> {sensor.name}</Text>
+
             </TouchableOpacity>
           ))}
 
         </View>
 
-        <View>
+        <View style={chartStyles.periodDiv}>
           {timePeriods.map((time, index) => (
-            <TouchableOpacity key={index} onPress={handlePeriod(time.period)} >
-              <Text style={chartStyles.buttonView}> {time.name} </Text>
+            <TouchableOpacity key={index} 
+            onPress={() => setCurrentPeriod(time.period)}
+            style={currentPeriod === time.period ? chartStyles.periodButtonActive : chartStyles.periodButton}
+            >
+
+              <Text style={chartStyles.buttonText} > {time.name} </Text>
 
             </TouchableOpacity>
           ))}
@@ -110,9 +113,9 @@ function Chart(props) {
             <>
               {
                 active.chart === 'line' ? (
-                  <Line sensor={active} data={data} />
+                  <Line sensor={active} data={data} period={currentPeriod} />
                 ) : (
-                    <Bar sensor={active} data={data} />
+                    <Bar sensor={active} data={data} period={currentPeriod} />
                   )
               }
             </>) : (

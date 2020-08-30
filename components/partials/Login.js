@@ -29,8 +29,6 @@ function Login(props) {
     } else {
       await storeData(userName);
       setErrorMessage('');
-      // props.navigation.params.onGoBack('123');
-      // props.navigation.goBack();
       props.route.params.onNavigateBack();
       props.navigation.navigate('Home')
     };
