@@ -20,6 +20,7 @@ function Site(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('site');
+    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
   };
 

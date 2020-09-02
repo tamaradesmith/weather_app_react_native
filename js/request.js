@@ -11,7 +11,7 @@ const Sensor = {
       });
       return res.json();
     } catch (error) {
-      console.log(error.message);
+      console.error("get Sensor ", error.message);
       return error.message
     };
   },
@@ -22,7 +22,7 @@ const Sensor = {
       })
       return res.json();
     } catch (error) {
-      console.log(error.message)
+      console.error("get Single reading  ", error.message)
       return error.message
     }
   },
@@ -33,7 +33,7 @@ const Sensor = {
       });
       return res.json();
     } catch (error) {
-      console.log("error message: ", error.message);
+      console.error("error message: high low readings", error.message);
       return error.message
     };
   },
@@ -44,7 +44,7 @@ const Sensor = {
       })
       return res.json();
     } catch (error) {
-      console.log(error.message);
+      console.error("day reading ", error.message);
       return error.message
     };
   },
@@ -55,10 +55,11 @@ const Sensor = {
       });
       return res.json();
     } catch (error) {
-      console.error(error.message);
+      console.error("get readings ", error.message);
     };
   },
 }
+
 
 const Display = {
   async getDisplaySensors(display) {
@@ -68,8 +69,18 @@ const Display = {
       });
       return res.json()
     } catch (error) {
-      console.log(error.message)
+      console.error('display sensors error ', error.message)
       return error.message;
+    }
+  },
+  async getUserDisplays() {
+    try {
+      const res = await fetch(`${BASE_URL}/display/user/index`, {
+        credentials: 'include',
+      })
+      return res.json();
+    } catch (error) {
+      console.error("user Display errror ", error.message);
     }
   },
 };
@@ -84,7 +95,7 @@ const User = {
       },
       body: JSON.stringify(user)
     }).catch(err => {
-      console.log("this is an error", err);
+      console.error("Log in", err.message);
     });
     return res.json()
   },
@@ -96,4 +107,5 @@ const User = {
   },
 };
 
-export { Sensor, Display, User }
+
+export { Sensor, Display, User };

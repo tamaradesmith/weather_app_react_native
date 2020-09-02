@@ -7,7 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { navigationRef } from './/components/partials/RootNavigations';
 
 
-import styles from './styles/styles';
+import { Display } from './js/request'
 
 import NavBar from "./components/NavBar";
 import Site from './components/Site';
@@ -18,11 +18,65 @@ import Login from './components/partials/Login';
 import Chart from './components/Chart';
 
 const Tab = createMaterialTopTabNavigator()
-const Stact = createStackNavigator()
+const Stack = createStackNavigator()
 
 const App = () => {
 
   const [user, setUser] = useState('guest')
+  const [displays, setdisplays] = useState([])
+
+  function HomeStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ title: 'Home', user: user, headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ title: 'Log In', headerShown: false }}
+        />
+        {/* <Stack.Screen
+          name="Chart"
+          component={Chart}
+          options={{ title: 'Chart', headerShown: false  }}
+        /> */}
+      </Stack.Navigator>
+    )
+  };
+
+  async function getDisplays() {
+    try {
+      const allDisplays = await Display.getUserDisplays();
+      createStacks(allDisplays)
+    } catch (error) {
+      console.error('get user display', error.message);
+    }
+  };
+  
+
+  function createStacks(displays) {
+    const result = [];
+    const keys = Object.keys(displays)
+    let stack = `<Stack.Navigator>`;
+    keys.forEach(key => {
+
+      displays[key].forEach(page => {
+        stack += `<Stack.Screen
+       name="${page.name}"
+       component={Chart}
+       options={{ headerShown: false }}
+       />`
+
+      });
+      stack += '</Stack.Navigator>'
+      console.log("createStacks -> stack", stack);
+
+    })
+  }
+  getDisplays();
 
   return (
     <>
@@ -45,16 +99,14 @@ const App = () => {
         >
           <Tab.Screen
             name="Home"
-            component={Home}
-            options={{ title: 'Home', user:user }}
-            screenProps={{ user: user }}
-
+            component={HomeStack}
+            options={{ title: 'Home', user: user }}
           />
-          <Tab.Screen
+          {/* <Stack.Screen
             name="Login"
             component={Login}
-            options={{ title: 'Log In' }}
-          />
+            options={{ title: 'Log In', headerShown: false }}
+          /> */}
           <Tab.Screen
             name="Site"
             component={Site}
@@ -77,6 +129,24 @@ const App = () => {
           /> */}
         </Tab.Navigator>
       </NavigationContainer>
+
+
+      {/* <NavigationContainer>
+        <Stack.Navigator screenOptions={Login}>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: 'Log In' }}
+          />
+          <Stack.Screen
+            name="Chart"
+            component={Chart}
+            options={{ title: 'Chart' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer> */}
+
+
     </>
   );
 };

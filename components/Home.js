@@ -9,6 +9,7 @@ function Home(props) {
 
   const [user, setUser] = useState('')
 
+
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('user')
@@ -61,14 +62,15 @@ function Home(props) {
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Login',
             {
-              onNavigateBack: () => {setUser('new')},
+              onNavigateBack: () => { setUser('new')},
             })} 
-            style={styles.buttonSubmit}>
-            <Text style={styles.buttonText}>Log In </Text>
+            style={styles.buttonSubmit}
+            >
+            <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
         ) : (
             <TouchableOpacity onPress={handleLogout} style={styles.buttonSubmit}>
-              <Text style={styles.buttonText}>Log Out </Text>
+              <Text style={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
           )}
 
