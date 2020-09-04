@@ -12,10 +12,11 @@ import { Sensor } from '../js/request';
 
 
 function Chart(props) {
+  // console.log("Chart -> props", props.route.params);
 
-  const sensors = props.route.params.sensors ;
+  const sensors = [{ name: 'inside', id: 20 }, { name: 'outside', id: 27 }]// props.route.params.sensors
 
-  const [active, setActive] = useState({});
+  const [active, setActive] = useState({ name: sensors[0].name, id: sensors[0].id, chart: 'line', type: '' });
   const [data, setData] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(1);
   const [loading, setLoading] = useState(true)
@@ -57,17 +58,20 @@ function Chart(props) {
     getData(active.id, currentPeriod);
   }
 
-  useEffect(() => {
-    if (sensors) {
-      setActive({ name: sensors[0].name, id: sensors[0].id, chart: 'line', type: '' })
-    }
-  }, [sensors]);
+  // useEffect(() => {
+  //   console.log("Chart -> sensors", sensors);
+  //   if (sensors) {
+  //     setActive({ name: sensors[0].name, id: sensors[0].id, chart: 'line', type: '' })
+  //   }
+  // }, [sensors]);
 
   useEffect(() => {
+    let unmounted = false;
     if (active.id !== undefined) {
       setLoading(true)
       getSensor(active.id, 1);
     }
+    return () => { unmounted = true };
   }, [active]);
 
   useEffect(() => {

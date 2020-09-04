@@ -20,7 +20,6 @@ function Site(props) {
 
   async function getSiteSensors() {
     const getSensors = await Display.getDisplaySensors('site');
-    console.log("getSiteSensors -> getSensors", getSensors);
     setSiteSensors(getSensors);
   };
 
@@ -83,7 +82,7 @@ function Site(props) {
         <View>
           <TouchableOpacity onPress={() => RootNavigation.navigate('Chart', {
             sensors:
-              [{ name: 'pressure', id: siteSensors.pressureSensor  }]
+              [{ name: 'pressure', id: siteSensors.pressureSensor }]
           })}>
             <Pressure widthSize={175} heightSize={110} displaySensors={{ name: 'pressure', id: siteSensors.pressureSensor }} />
           </TouchableOpacity>
