@@ -9,7 +9,6 @@ import { format } from 'date-fns';
 function Bar(props) {
 
   const { sensor, data } = props
-  console.log("Bar -> data", data);
 
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,23 +17,19 @@ function Bar(props) {
   function formateData() {
     const labels = [];
     const result = [];
-    // const skip = []
-    data.forEach((reading, index) => {
+    data.forEach((reading) => {
       if (reading.sum === null) {
-        // skip.push(index)
         reading.sum = 0
       }
       result.push(parseFloat(reading.sum));
-      console.log("formateData Bar -> result", result);
       labels.push(format(new Date(reading.time), "ha"));
     });
+
     const datas = {
       labels: labels,
       datasets: [
         {
-          
           data: result,
-          // hidePointsAtIndex: skip,
         }
       ],
       barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]

@@ -26,7 +26,6 @@ const App = () => {
 
   const [user, setUser] = useState('guest')
   const [displays, setDisplays] = useState([])
-  // console.log("App -> displays", displays);
 
   function HomeStack() {
     return (
@@ -48,7 +47,7 @@ const App = () => {
   };
 
   function createTabSite() {
-    if (displays.length !== 0 && displays.site[0].type !== undefined) {
+    if (displays.length !== 0) {
       const sites = displays.site
       const result = [];
       let current = []
@@ -67,19 +66,22 @@ const App = () => {
       });
       return (
         <TabSite.Navigator>
-          {result.map(sensor =>
+          {result.map((sensor, index) =>
             <TabSite.Screen
+              key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
               component={Chart}
-              options={{ title: 'Home', user: user, }}
+              options={{ title: sensor.name, user: user, }}
               initialParams={sensor}
             />
           )}
         </TabSite.Navigator>
-      ) 
-    } 
+      )
+    } else {
+      console.log('return null')
+      return null
+    }
   }
-
 
   function createSiteStack() {
     // const site = displays.site
@@ -99,6 +101,7 @@ const App = () => {
       </SiteStack.Navigator>
     )
   }
+
 
   async function getDisplays() {
     try {
