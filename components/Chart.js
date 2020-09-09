@@ -13,10 +13,7 @@ import { Sensor } from '../js/request';
 
 function Chart(props) {
 
-
-
   const sensors = setupSensors(props.route.params);
-
 
   const [active, setActive] = useState({ name: sensors[0].name, id: sensors[0].sensor_id, chart: 'line', sensor: sensors[0].sensor, type: sensors[0].type });
   const [data, setData] = useState([]);
@@ -93,9 +90,24 @@ function Chart(props) {
                     key={'button', sensor.sensor_id}
                     onPress={() => setActive(sensor)}
                     style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
+                    {(sensor.name).includes('Inside') ? (
+                      <Text style={chartStyles.buttonText}>
+                        inside
+                      </Text>
+                    ) : (
+                        <>
+                          {(sensor.name).includes('Outside') ? (
+                            <Text style={chartStyles.buttonText}>
+                              outside
+                            </Text>
 
-
-                    <Text style={chartStyles.buttonText}> {sensor.name}</Text>
+                          ) : (
+                              <Text style={chartStyles.buttonText}>
+                                {(sensor.name).slice(4)}
+                              </Text>
+                            )}
+                        </>
+                      )}
 
                   </TouchableOpacity>
                 ))
@@ -110,9 +122,7 @@ function Chart(props) {
               onPress={() => setCurrentPeriod(time.period)}
               style={currentPeriod === time.period ? chartStyles.periodButtonActive : chartStyles.periodButton}
             >
-
               <Text style={chartStyles.buttonText} > {time.name} </Text>
-
             </TouchableOpacity>
           ))}
         </View>
