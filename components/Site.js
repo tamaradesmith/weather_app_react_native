@@ -26,7 +26,7 @@ function Site(props) {
   useEffect(() => {
     getSiteSensors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <View style={styles.body}>
@@ -91,6 +91,6 @@ function Site(props) {
       </ScrollView>
     </View>
   );
-}
+};
 
 export default Site;

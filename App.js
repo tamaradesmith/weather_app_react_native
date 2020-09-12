@@ -21,6 +21,10 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 const SiteStack = createStackNavigator();
 const TabSite = createMaterialTopTabNavigator();
+const InsideStack = createStackNavigator();
+const TabInside = createMaterialTopTabNavigator();
+const OutsideStack = createStackNavigator();
+const TabOutside = createMaterialTopTabNavigator();
 
 const App = () => {
 
@@ -35,12 +39,10 @@ const App = () => {
           component={Home}
           options={{ title: 'Home', user: user, headerShown: false }}
         />
-        {}
         <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: 'Log In', headerShown: false }}
-        // screenProps={[{ name: 'inside', id: 20 }, { name: 'outside', id: 27 }]}
         />
       </Stack.Navigator>
     )
@@ -84,7 +86,6 @@ const App = () => {
   }
 
   function createSiteStack() {
-    // const site = displays.site
     return (
       <SiteStack.Navigator>
         <SiteStack.Screen
@@ -102,6 +103,113 @@ const App = () => {
     )
   }
 
+  function createTabInside() {
+    if (displays.length !== 0) {
+      const insides = displays.inside
+      const result = [];
+      let current = []
+      let type = insides[0].type
+      insides.map((inside, index) => {
+        if (inside.type === type) {
+          current.push(inside);
+        } else {
+          result.push(current);
+          type = inside.type;
+          current = [inside];
+        };
+        if (index === insides.length - 1) {
+          result.push(current)
+        };
+      });
+      return (
+        <TabInside.Navigator>
+          {result.map((sensor, index) =>
+            <TabInside.Screen
+              key={"nav", sensor[0].sensor_id}
+              name={sensor[0].sensor}
+              component={Chart}
+              options={{ title: sensor.name, user: user, }}
+              initialParams={sensor}
+            />
+          )}
+        </TabInside.Navigator>
+      )
+    } else {
+      console.log('return null')
+      return null
+    }
+  }
+
+  function createInsideStack() {
+    return (
+      <InsideStack.Navigator>
+        <InsideStack.Screen
+          name="Inside"
+          component={Inside}
+          options={{ title: 'Inside', user: user, headerShown: false }}
+        />
+        <InsideStack.Screen
+          name="Chart"
+          component={createTabInside}
+          options={{ title: 'Chart', headerShown: true }}
+        />
+      </InsideStack.Navigator>
+    )
+  }
+
+
+  function createTabOutside() {
+    if (displays.length !== 0) {
+      const outsides = displays.outside
+      const result = [];
+      let current = []
+      let type = outsides[0].type
+      outsides.map((outside, index) => {
+        if (outside.type === type) {
+          current.push(outside);
+        } else {
+          result.push(current);
+          type = outside.type;
+          current = [outside];
+        };
+        if (index === outsides.length - 1) {
+          result.push(current)
+        };
+      });
+      return (
+        <TabOutside.Navigator>
+          {result.map((sensor, index) =>
+            <TabOutside.Screen
+              key={"nav", sensor[0].sensor_id}
+              name={sensor[0].sensor}
+              component={Chart}
+              options={{ title: sensor.name, user: user, }}
+              initialParams={sensor}
+            />
+          )}
+        </TabOutside.Navigator>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function createOutsideStack() {
+    return (
+      <OutsideStack.Navigator>
+        <OutsideStack.Screen
+          name="Outside"
+          component={Outside}
+          options={{ title: 'Outside', user: user, headerShown: false }}
+        />
+        <OutsideStack.Screen
+          name="Chart"
+          component={createTabOutside}
+          options={{ title: 'Chart', headerShown: true }}
+        />
+      </OutsideStack.Navigator>
+    )
+  }
 
   async function getDisplays() {
     try {
@@ -121,6 +229,8 @@ const App = () => {
   useEffect(() => {
     let unmounted = false;
     createSiteStack();
+    createInsideStack();
+    createOutsideStack();
     return () => { unmounted = true };
   }, [displays]);
 
@@ -131,7 +241,6 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         <Tab.Navigator
           initialRouteName="Home"
-
           screenOptions={{
             headerTitleAlign: 'center',
             headerStyle: {
@@ -155,39 +264,19 @@ const App = () => {
           />
           <Tab.Screen
             name="Inside"
-            component={Inside}
+            component={createInsideStack}
             options={{ title: 'Inside' }}
           />
           <Tab.Screen
             name="Outside"
-            component={Outside}
+            component={createOutsideStack}
             options={{ title: 'Outside' }}
           />
-          {/* <Tab.Screen
-            name="Chart"
-            component={Chart}
-            options={{ title: 'Chart' }}
-          /> */}
         </Tab.Navigator>
       </NavigationContainer>
-
-
-
     </>
   );
 };
 
 
 export default App;
-
-
-
-// const displays = {
-//   "humidily": [
-//     { "display": "site", "id": "1", "name": "humidilyInside", "sensor_id": 36, "type": "humidily" },
-//     { "display": "site", "id": "1", "name": "humidilyOutside", "sensor_id": 35, "type": "humidily" },
-//     { "display": "inside", "id": "2", "name": "humidily", "sensor_id": 36, "type": "humidily" },
-//     { "display": "outside", "id": "3", "name": "humidily", "sensor_id": 35, "type": "humidily" }],
-
-//   "ppm": [{ "display": "inside", "id": "2", "name": "co", "sensor_id": 23, "type": "ppm" }], "pressure": [{ "display": "site", "id": "1", "name": "pressureSensor", "sensor_id": 28, "type": "pressure" }], "range": [{ "display": "site", "id": "1", "name": "rainfallSensor", "sensor_id": 34, "type": "range" }, { "display": "site", "id": "1", "name": "windSpeed", "sensor_id": 37, "type": "range" }, { "display": "site", "id": "1", "name": "windDirection", "sensor_id": 38, "type": "range" }, { "display": "inside", "id": "2", "name": "particule", "sensor_id": 24, "type": "range" }, { "display": "outside", "id": "3", "name": "windSpeed", "sensor_id": 37, "type": "range" }, { "display": "outside", "id": "3", "name": "windDirection", "sensor_id": 38, "type": "range" }, { "display": "outside", "id": "3", "name": "skyRed", "sensor_id": 16, "type": "range" }, { "display": "outside", "id": "3", "name": "rainfallSensor", "sensor_id": 34, "type": "range" }, { "display": "outside", "id": "3", "name": "skyGreen", "sensor_id": 17, "type": "range" }, { "display": "outside", "id": "3", "name": "skyBlue", "sensor_id": 18, "type": "range" }], "temperature": [{ "display": "site", "id": "1", "name": "temperatureInside", "sensor_id": 20, "type": "temperature" }, { "display": "site", "id": "1", "name": "temperatureOutside", "sensor_id": 27, "type": "temperature" }, { "display": "inside", "id": "2", "name": "temperatureMain", "sensor_id": 20, "type": "temperature" }, { "display": "inside", "id": "2", "name": "temperatureBedroom", "sensor_id": 1, "type": "temperature" }, { "display": "outside", "id": "3", "name": "temperatureOutside", "sensor_id": 27, "type": "temperature" }, { "display": "outside", "id": "3", "name": "temperatureShade", "sensor_id": 13, "type": "temperature" }]
-// }
