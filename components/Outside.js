@@ -22,9 +22,30 @@ function Outside(props) {
   };
 
   useEffect(() => {
-    getSiteSensors();
+    let isCancelled = false;
+
+    const fetchData = async () => {
+      // dispatch(requestStarted());
+      try {
+        const getSensors = await Display.getDisplaySensors('outside');
+
+        if (!isCancelled) {
+          // dispatch(requestSuccessful({ data }));
+          setSiteSensors(getSensors);
+        }
+      } catch (e) {
+        if (!isCancelled) {
+          console.error({ error: e.message });
+        }
+      }
+    };
+    fetchData();
+
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
 

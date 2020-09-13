@@ -18,13 +18,24 @@ function Site(props) {
 
   const [siteSensors, setSiteSensors] = useState([]);
 
-  async function getSiteSensors() {
-    const getSensors = await Display.getDisplaySensors('site');
-    setSiteSensors(getSensors);
-  };
-
   useEffect(() => {
+    let isCancelled = false;
+    const getSiteSensors = async () => {
+      try {
+        const getSensors = await Display.getDisplaySensors('site');
+        if (!isCancelled) {
+          setSiteSensors(getSensors);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error(({ error: error.message }));
+        }
+      }
+    }
     getSiteSensors();
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

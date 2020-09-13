@@ -9,7 +9,8 @@ function SkyColour(props) {
   const { widthSize, heightSize, displaySensors } = props;
 
   const [sensors, setSensors] = useState([]);
-  const [colours, setColours] = useState({})
+  const [colours, setColours] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const abortController = new AbortController();
 
@@ -23,12 +24,14 @@ function SkyColour(props) {
         colourReading[sensor.name] = reading;
         return sensor;
       }))
-      .catch(error => { console.log('error ', error.message) })
-    setSensors(list)
-    setColours(colourReading)
-    return function cancel() {
-      abortController.abort();
-    };
+      .catch(error => { console.error('error ', error.message) })
+    console.log("getSensors -> list", list);
+    return { sensors: list, colour: colourReading }
+    // setSensors(list)
+    // setColours(colourReading)
+    // return function cancel() {
+    //   abortController.abort();
+    // };
   };
 
   async function getReading(id) {
@@ -37,13 +40,29 @@ function SkyColour(props) {
   };
 
   useEffect(() => {
+
+    let mounted = true
     if (displaySensors !== undefined) {
-      getSensors();
+     async function fetchSensors() {
+        const sensor = await getSensors();
+        console.log("SkyColour -> sensor", sensor);
+        if (mounted) {
+          setSensors(sensor.list)
+          setColours(sensor.colour)
+        }
+      };
+    }
+    return function cleanup() {
+      mounted = false
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySensors]);
 
-
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    }
+  }, [])
 
   return (
     <View style={styles.body}>

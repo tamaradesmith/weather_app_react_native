@@ -10,15 +10,15 @@ function Home(props) {
   const [user, setUser] = useState('')
 
 
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('user')
-      setUser(value !== null ? value : 'guest')
-      return value;
-    } catch (e) {
-      // error reading value
-    }
-  }
+  // const getData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('user')
+  //     setUser(value !== null ? value : 'guest')
+  //     return value;
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // }
 
   const removeValue = async () => {
     try {
@@ -36,8 +36,24 @@ function Home(props) {
   };
 
   useEffect(() => {
-    getData()
-  }, [user])
+    let isCancelled = false;
+
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('user')
+        if (!isCancelled) {
+          setUser(value !== null ? value : 'guest')
+        }
+      } catch (error) {
+        if (!isCancelled)
+          console.error(({ error: e.message }));
+      }
+    }
+    getData();
+    return () => {
+      isCancelled = true;
+    };
+  }, [user]);
 
   return (
     <View style={styles.mainBody}>
@@ -62,10 +78,10 @@ function Home(props) {
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Login',
             {
-              onNavigateBack: () => { setUser('new')},
-            })} 
+              onNavigateBack: () => { setUser('new') },
+            })}
             style={styles.buttonSubmit}
-            >
+          >
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
         ) : (

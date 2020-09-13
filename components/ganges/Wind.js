@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 import { Sensor } from "../../js/request";
 import styles from '../../styles/styles'
@@ -23,8 +23,6 @@ function Wind(props) {
     setSensors(list);
   };
   
-
-
   async function getReading(id) {
     const reading = await Sensor.getReading(id)
     return Math.round(reading.value)
@@ -60,7 +58,7 @@ function Wind(props) {
           }} />
           {angle ? (
 
-        <Image source={require('../../image/arrow.jpg')} style={{
+        <Image source={require('../../image/wind_needle.png')} style={{
           position: 'absolute',
           zIndex: -1,
           height: heightSize,

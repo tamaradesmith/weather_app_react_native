@@ -8,18 +8,18 @@ import styles from '../../styles/styles'
 function Humidity(props) {
 
   const { widthSize, heightSize, displaySensors, flexDirection } = props;
- 
+
   const [sensors, setSensors] = useState([]);
 
-  async function getSensors() {
-    const list = await Promise.all(
-      displaySensors.map(async sensor => {
-        const reading = await getReading(sensor.id);
-        sensor.reading = reading;
-        return sensor
-      }))
-    setSensors(list)
-  }
+  // async function getSensors() {
+  //   const list = await Promise.all(
+  //     displaySensors.map(async sensor => {
+  //       const reading = await getReading(sensor.id);
+  //       sensor.reading = reading;
+  //       return sensor
+  //     }))
+  //   setSensors(list)
+  // }
 
   async function getReading(id) {
     const sensorReading = await Sensor.getReading(id);
@@ -28,7 +28,26 @@ function Humidity(props) {
 
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (displaySensors !== undefined) {
+      const getSensors = async () => {
+        try {
+          const list = await Promise.all(
+            displaySensors.map(async sensor => {
+              const reading = await getReading(sensor.id);
+              sensor.reading = reading;
+              return sensor
+            }))
+          if (!isCancelled) {
+            setSensors(list)
+          }
+        } catch (error) {
+          if (!isCancelled) {
+            console.error({ error: error.message });
+          }
+        }
+      }
       getSensors();
     }
   }, [displaySensors]);
