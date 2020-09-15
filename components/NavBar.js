@@ -6,16 +6,16 @@ import styles from '../styles/styles';
 
 
 function Navbar(props) {
-  const [hidden, setHidden] = useState(true);
+  // const [hidden, setHidden] = useState(true);
 
-  function handlePress() {
-    setHidden((hidden === true) ? false : true)
-  };
+  // function handlePress() {
+  //   setHidden((hidden === true) ? false : true)
+  // };
 
-  function route(location) {
-    RootNavigation.navigate(location);
-    setHidden((hidden === true) ? false : true);
-  }
+  // function route(location) {
+  //   RootNavigation.navigate(location);
+  //   setHidden((hidden === true) ? false : true);
+  // }
 
   return (
     <View>
@@ -25,12 +25,12 @@ function Navbar(props) {
           Weather_App
       </Text>
         <Text style={styles.navBarText}>
-          <Text style={styles.text} onPress={handlePress}>Menu</Text>
+          <Text style={styles.text}>Menu</Text>
         </Text>
 
 
-      </View>
-      {!hidden ? (
+       </View>
+  {/*    {!hidden ? (
         <View style={styles.menu}>
 
           <TouchableOpacity onPress={() => route('Home')} style={styles.button}>
@@ -50,8 +50,8 @@ function Navbar(props) {
           </TouchableOpacity>
         </View>
       ) : null}
-
-    </View>
+*/}
+    </View> 
   );
 };
 

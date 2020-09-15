@@ -7,7 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { navigationRef } from './/components/partials/RootNavigations';
 
 
-import { Display } from './js/request'
+import { Display } from './js/request';
 
 import NavBar from "./components/NavBar";
 import Site from './components/Site';
@@ -28,8 +28,8 @@ const TabOutside = createMaterialTopTabNavigator();
 
 const App = () => {
 
-  const [user, setUser] = useState('guest')
-  const [displays, setDisplays] = useState([])
+  const [user, setUser] = useState('guest');
+  const [displays, setDisplays] = useState([]);
 
   function HomeStack() {
     return (
@@ -45,15 +45,15 @@ const App = () => {
           options={{ title: 'Log In', headerShown: false }}
         />
       </Stack.Navigator>
-    )
+    );
   };
 
   function createTabSite() {
     if (displays.length !== 0) {
-      const sites = displays.site
+      const sites = displays.site;
       const result = [];
-      let current = []
-      let type = sites[0].type
+      let current = [];
+      let type = sites[0].type;
       sites.map((site, index) => {
         if (site.type === type) {
           current.push(site);
@@ -63,7 +63,7 @@ const App = () => {
           current = [site];
         };
         if (index === sites.length - 1) {
-          result.push(current)
+          result.push(current);
         };
       });
       return (
@@ -80,10 +80,9 @@ const App = () => {
         </TabSite.Navigator>
       )
     } else {
-      console.log('return null')
-      return null
-    }
-  }
+      return null;
+    };
+  };
 
   function createSiteStack() {
     return (
@@ -97,7 +96,7 @@ const App = () => {
         <SiteStack.Screen
           name="Chart"
           component={createTabSite}
-          options={{ title: 'Chart', headerShown: true }}
+          options={{ title: 'Chart', headerShown: false }}
         />
       </SiteStack.Navigator>
     )
@@ -105,10 +104,10 @@ const App = () => {
 
   function createTabInside() {
     if (displays.length !== 0) {
-      const insides = displays.inside
+      const insides = displays.inside;
       const result = [];
-      let current = []
-      let type = insides[0].type
+      let current = [];
+      let type = insides[0].type;
       insides.map((inside, index) => {
         if (inside.type === type) {
           current.push(inside);
@@ -118,12 +117,12 @@ const App = () => {
           current = [inside];
         };
         if (index === insides.length - 1) {
-          result.push(current)
+          result.push(current);
         };
       });
       return (
         <TabInside.Navigator>
-          {result.map((sensor, index) =>
+          {result.map((sensor) =>
             <TabInside.Screen
               key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
@@ -133,9 +132,8 @@ const App = () => {
             />
           )}
         </TabInside.Navigator>
-      )
+      );
     } else {
-      console.log('return null')
       return null
     }
   }
@@ -151,34 +149,46 @@ const App = () => {
         <InsideStack.Screen
           name="Chart"
           component={createTabInside}
-          options={{ title: 'Chart', headerShown: true }}
+          options={{ title: 'Chart', headerShown: false }}
         />
       </InsideStack.Navigator>
-    )
-  }
+    );
+  };
+
+
 
 
   function createTabOutside() {
     if (displays.length !== 0) {
-      const outsides = displays.outside
+      const outsides = displays.outside;
       const result = [];
-      let current = []
-      let type = outsides[0].type
+      let current = [];
+      let type = outsides[0].sub_type;
+      const allsubTypes = [type];
       outsides.map((outside, index) => {
-        if (outside.type === type) {
+        function getIndex(value) {
+          return outside.sub_type;
+        }
+        if (outside.sub_type === type) {
           current.push(outside);
+        } else if (allsubTypes.includes(outside.sub_type)) {
+          const i = allsubTypes.findIndex(getIndex)
+          result[i].push(outside)
         } else {
           result.push(current);
-          type = outside.type;
+          type = outside.sub_type;
           current = [outside];
         };
+        if (!allsubTypes.includes(outside.sub_type)) {
+          allsubTypes.push(outside.sub_type);
+        }
         if (index === outsides.length - 1) {
-          result.push(current)
+          result.push(current);
         };
       });
       return (
         <TabOutside.Navigator>
-          {result.map((sensor, index) =>
+          {result.map((sensor) =>
             <TabOutside.Screen
               key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
@@ -188,11 +198,11 @@ const App = () => {
             />
           )}
         </TabOutside.Navigator>
-      )
+      );
     } else {
-      return null
-    }
-  }
+      return null;
+    };
+  };
 
   function createOutsideStack() {
     return (
@@ -205,26 +215,26 @@ const App = () => {
         <OutsideStack.Screen
           name="Chart"
           component={createTabOutside}
-          options={{ title: 'Chart', headerShown: true }}
+          options={{ title: 'Chart', headerShown: false }}
         />
       </OutsideStack.Navigator>
-    )
-  }
+    );
+  };
 
   async function getDisplays() {
     try {
       const allDisplays = await Display.getUserDisplays();
-      setDisplays(allDisplays)
+      setDisplays(allDisplays);
     } catch (error) {
       console.error('get user display', error.message);
-    }
+    };
   };
 
   useEffect(() => {
     let unmounted = false;
     getDisplays();
     return () => { unmounted = true };
-  }, [])
+  }, []);
 
   useEffect(() => {
     let unmounted = false;
@@ -277,6 +287,5 @@ const App = () => {
     </>
   );
 };
-
 
 export default App;

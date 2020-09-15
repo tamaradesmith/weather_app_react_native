@@ -18,9 +18,10 @@ function Temperature(props) {
 
   async function getSensors() {
     const list = await Promise.all(
+
       displaySensors.map(async sensor => {
         const reading = await getReading(sensor.id);
-        sensor.reading = reading
+        sensor.reading = reading;
         const sensorInfo = await Sensor.getSensor(sensor.id)
         if (sensorInfo.location === "outside") {
           if (sensor.name !== "shade") {
@@ -29,9 +30,10 @@ function Temperature(props) {
             sensor.low = Math.round(readings.low);
             getColours(reading);
           }
-        }
+        };
         return sensor;
-      })).catch(error => { console.log('error ', error.message) })
+      })).catch(error => { console.error('error ', error.message) })
+
     setSensors(list)
     return function cancel() {
       abortController.abort();
@@ -44,8 +46,6 @@ function Temperature(props) {
   };
 
   function getColours(temperature) {
-
-
     if (temperature < -15) {
       bottom = colours[0];
       top = colours[0];
@@ -84,7 +84,6 @@ function Temperature(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySensors]);
 
-
   return (
     <View style={styles.body}>
       <View>
@@ -105,7 +104,7 @@ function Temperature(props) {
       <View>
         <Text style={styles.header}>
           Temperature
-      </Text>
+        </Text>
         {sensors ? (
           <>
 
@@ -123,6 +122,7 @@ function Temperature(props) {
                   ) : null}
                 </View>
               ))
+
             }
           </>
         ) : (

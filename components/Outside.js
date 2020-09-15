@@ -25,19 +25,16 @@ function Outside(props) {
     let isCancelled = false;
 
     const fetchData = async () => {
-      // dispatch(requestStarted());
       try {
         const getSensors = await Display.getDisplaySensors('outside');
-
         if (!isCancelled) {
-          // dispatch(requestSuccessful({ data }));
           setSiteSensors(getSensors);
-        }
+        };
       } catch (e) {
         if (!isCancelled) {
           console.error({ error: e.message });
-        }
-      }
+        };
+      };
     };
     fetchData();
 
@@ -98,9 +95,10 @@ function Outside(props) {
             <SkyColour widthSize={200} heightSize={100} displaySensors={[{ name: 'blue', id: siteSensors.skyBlue }, { name: 'red', id: siteSensors.skyRed }, { name: 'green', id: siteSensors.skyGreen }]} />
           </TouchableOpacity>
         </View>
+        
       </ScrollView>
     </View>
   );
-}
+};
 
 export default Outside;

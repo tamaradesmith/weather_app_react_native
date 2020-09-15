@@ -25,7 +25,6 @@ function SkyColour(props) {
         return sensor;
       }))
       .catch(error => { console.error('error ', error.message) })
-    console.log("getSensors -> list", list);
     return { sensors: list, colour: colourReading }
     // setSensors(list)
     // setColours(colourReading)
@@ -45,12 +44,12 @@ function SkyColour(props) {
     if (displaySensors !== undefined) {
      async function fetchSensors() {
         const sensor = await getSensors();
-        console.log("SkyColour -> sensor", sensor);
         if (mounted) {
           setSensors(sensor.list)
           setColours(sensor.colour)
-        }
+        };
       };
+      fetchSensors();
     }
     return function cleanup() {
       mounted = false

@@ -18,7 +18,7 @@ function Chart(props) {
   const [active, setActive] = useState({ name: sensors[0].name, id: sensors[0].sensor_id, chart: 'line', sensor: sensors[0].sensor, type: sensors[0].type });
   const [data, setData] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(1);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const timePeriods = [{ name: 'day', period: 1 }, { name: 'week', period: 7 }, { name: 'month', period: 30 }, { name: 'year', period: 365 }]
 
@@ -102,9 +102,19 @@ function Chart(props) {
                             </Text>
 
                           ) : (
-                              <Text style={chartStyles.buttonText}>
-                                {(sensor.name).slice(4)}
-                              </Text>
+                            <>
+                              {
+                                (sensor.name).includes('temperature') ? (
+                                <Text style={chartStyles.buttonText}>
+                                      {(sensor.name).slice(11)}
+                                </Text>
+
+                              ) : (
+                                  <Text style={chartStyles.buttonText}>
+                                    {(sensor.name).slice(4)}
+                                  </Text>
+                                )}
+                                </>
                             )}
                         </>
                       )}

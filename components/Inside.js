@@ -10,29 +10,24 @@ import Temperature from './ganges/Temperature';
 import Humidity from './ganges/Humidity';
 import AirQuality from './ganges/AirQuality';
 
+
 function Inside(props) {
   const [siteSensors, setSiteSensors] = useState([]);
 
-  // async function getSiteSensors() {
-  //   const getSensors = await Display.getDisplaySensors('inside');
-  //   setSiteSensors(getSensors);
-  // };
-
   useEffect(() => {
-
     let isCancelled = false;
     const getSiteSensors = async () => {
       try {
         const getSensors = await Display.getDisplaySensors('inside');
         if (!isCancelled) {
           setSiteSensors(getSensors);
-        }
+        };
       } catch (error) {
         if (!isCancelled) {
           console.error({ error: error.message });
-        }
-      }
-    }
+        };
+      };
+    };
     getSiteSensors();
     return () => {
       isCancelled = true;
