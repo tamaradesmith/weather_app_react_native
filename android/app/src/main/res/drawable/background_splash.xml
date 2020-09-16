@@ -2,12 +2,18 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/blue"/>
+        android:drawable="@color/background"/>
 
-    <item
+  <item
+        android:drawable="@drawable/react_icon"
+        android:height="200dp"
+        android:width="200dp"
+        android:gravity="center"
+        />
+    <!-- <item
         android:width="200dp"
         android:height="200dp"
         android:drawable="@mipmap/icon"
-        android:gravity="center" />
+        android:gravity="center" /> -->
 
 </layer-list>

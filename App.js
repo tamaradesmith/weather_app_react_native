@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { navigationRef } from './/components/partials/RootNavigations';
 
+import SplashScreen from 'react-native-splash-screen'
 
 import { Display } from './js/request';
 
@@ -66,6 +67,7 @@ const App = () => {
           result.push(current);
         };
       });
+
       return (
         <TabSite.Navigator>
           {result.map((sensor, index) =>
@@ -243,6 +245,10 @@ const App = () => {
     createOutsideStack();
     return () => { unmounted = true };
   }, [displays]);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <>
