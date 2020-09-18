@@ -15,7 +15,7 @@ function Chart(props) {
 
   const sensors = setupSensors(props.route.params);
 
-  const [active, setActive] = useState({ name: sensors[0].name, id: sensors[0].sensor_id, chart: 'line', sensor: sensors[0].sensor, type: sensors[0].type });
+  const [active, setActive] = useState({ name: sensors[0].name, sensor_id: sensors[0].sensor_id, chart: 'line', sensor: sensors[0].sensor, type: sensors[0].type });
   const [data, setData] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -33,10 +33,9 @@ function Chart(props) {
       }
       active.chart = chart;
       active.type = sensorInfo.type
-      getData(id, period);
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
+      const data = await getData(id, period);
+      return data
+
     } catch (error) {
       console.error(error.message);
     }
@@ -45,14 +44,15 @@ function Chart(props) {
   async function getData(id, period) {
     try {
       const readings = await Sensor.getReadings(id, period);
-      setData(readings);
+      return readings;
+      // setData(readings);
     } catch (error) {
       console.error("getData ", error.message);
     }
   }
 
   function changePeriod() {
-    getData(active.id, currentPeriod);
+    getSensor(active.sensor_id, currentPeriod);
   }
 
   function setupSensors(sensorInfo) {
@@ -63,17 +63,38 @@ function Chart(props) {
   };
 
   useEffect(() => {
-    let unmounted = false;
-    if (active.id !== undefined) {
-      setLoading(true)
-      getSensor(active.id, 1);
-    }
-    return () => { unmounted = true };
+    setLoading(true)
+    let isCancelled = false;
+    const getDataInfo = async () => {
+      try {
+        const readings = await getSensor(active.sensor_id, 1);
+        if (!isCancelled) {
+          setData(readings)
+          setTimeout(() => {
+            setLoading(false);
+          }, 150);
+        }
+      } catch (error) {
+        console.error(error.message);
+      };
+    };
+    if (active.sensor_id !== undefined) {
+      getDataInfo();
+    };
+    return () => { isCancelled = true };
   }, [active]);
 
   useEffect(() => {
-    changePeriod()
-  }, [currentPeriod])
+    let unmounted = false;
+    changePeriod();
+    return () => { unmounted = true };
+  }, [currentPeriod]);
+
+
+// useEffect(()=>{
+// console.log('data use Effect ',data)
+// },[data])
+
 
   return (
     <View style={styles.mainBody}>
@@ -92,6 +113,7 @@ function Chart(props) {
                     style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
                     {(sensor.name).includes('Inside') ? (
                       <Text style={chartStyles.buttonText}>
+                {  console.log("Chart -> sensor", sensor)}
                         inside
                       </Text>
                     ) : (
@@ -102,19 +124,19 @@ function Chart(props) {
                             </Text>
 
                           ) : (
-                            <>
-                              {
-                                (sensor.name).includes('temperature') ? (
-                                <Text style={chartStyles.buttonText}>
+                              <>
+                                {
+                                  (sensor.name).includes('temperature') ? (
+                                    <Text style={chartStyles.buttonText}>
                                       {(sensor.name).slice(11)}
-                                </Text>
+                                    </Text>
 
-                              ) : (
-                                  <Text style={chartStyles.buttonText}>
-                                    {(sensor.name).slice(4)}
-                                  </Text>
-                                )}
-                                </>
+                                  ) : (
+                                      <Text style={chartStyles.buttonText}>
+                                        {(sensor.name).slice(4)}
+                                      </Text>
+                                    )}
+                              </>
                             )}
                         </>
                       )}

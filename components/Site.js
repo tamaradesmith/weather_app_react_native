@@ -21,7 +21,6 @@ function Site(props) {
   useEffect(() => {
     let isCancelled = false;
     const getSiteSensors = async () => {
-
       try {
         const getSensors = await Display.getDisplaySensors('site');
         if (!isCancelled) {

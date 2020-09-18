@@ -48,6 +48,10 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 30,
   },
+  textNav: {
+    textAlign: 'right',
+    textTransform: "capitalize",
+  },
   text: {
     textAlign: 'right'
   },

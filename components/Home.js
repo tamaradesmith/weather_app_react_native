@@ -6,30 +6,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from '../styles/styles';
 
 function Home(props) {
+  console.log("Home -> props", props.route);
 
-  const [user, setUser] = useState('')
-
-
-  // const getData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('user')
-  //     setUser(value !== null ? value : 'guest')
-  //     return value;
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // }
+  const [user, setUser] = useState('');
 
   const removeValue = async () => {
     try {
       await AsyncStorage.removeItem('user');
-      setUser('guest')
-    } catch (e) {
-      // remove error
-    }
-    console.log('Done.')
-  }
+      await AsyncStorage.removeItem('site');
+      setUser('guest');
+      props.route.params.updateSite('')
+    } catch (error) {
+     console.error("remove Value : ", error.message );
+    };
+  };
 
+  const handleUser = () => {
+    setUser('new');
+  }
 
   const handleLogout = async () => {
     removeValue();
@@ -41,12 +35,13 @@ function Home(props) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('user')
+        const site = await AsyncStorage.getItem('site')
         if (!isCancelled) {
-          setUser(value !== null ? value : 'guest')
+          setUser(value !== null ? value : 'guest');
         }
       } catch (error) {
         if (!isCancelled)
-          console.error(({ error: e.message }));
+          console.error(({ error: error.message }));
       }
     }
     getData();
@@ -78,7 +73,7 @@ function Home(props) {
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Login',
             {
-              onNavigateBack: () => { setUser('new') },
+              onNavigateBack: () => { handleUser() },
             })}
             style={styles.buttonSubmit}
           >

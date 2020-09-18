@@ -4,7 +4,7 @@ import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { navigationRef } from './/components/partials/RootNavigations';
+import { navigationRef } from './components/partials/RootNavigations';
 
 import SplashScreen from 'react-native-splash-screen'
 
@@ -29,28 +29,30 @@ const TabOutside = createMaterialTopTabNavigator();
 
 const App = () => {
 
-  const [user, setUser] = useState('guest');
   const [displays, setDisplays] = useState([]);
+  const [site, setSite] = useState('');
 
   function HomeStack() {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="Home1"
           component={Home}
-          options={{ title: 'Home', user: user, headerShown: false }}
+          options={{ title: 'Home1', headerShown: false }}
+          initialParams={{ updateSite }}
         />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: 'Log In', headerShown: false }}
+          initialParams={{ updateSite }}
         />
       </Stack.Navigator>
     );
   };
 
   function createTabSite() {
-    if (displays.length !== 0) {
+    if (displays) {
       const sites = displays.site;
       const result = [];
       let current = [];
@@ -75,7 +77,7 @@ const App = () => {
               key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
               component={Chart}
-              options={{ title: sensor.name, user: user, }}
+              options={{ title: sensor.name }}
               initialParams={sensor}
             />
           )}
@@ -92,7 +94,7 @@ const App = () => {
         <SiteStack.Screen
           name="Site"
           component={Site}
-          options={{ title: 'Site', user: user, headerShown: false }}
+          options={{ title: 'Site', headerShown: false }}
         />
 
         <SiteStack.Screen
@@ -129,7 +131,7 @@ const App = () => {
               key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
               component={Chart}
-              options={{ title: sensor.name, user: user, }}
+              options={{ title: sensor.name }}
               initialParams={sensor}
             />
           )}
@@ -146,7 +148,7 @@ const App = () => {
         <InsideStack.Screen
           name="Inside"
           component={Inside}
-          options={{ title: 'Inside', user: user, headerShown: false }}
+          options={{ title: 'Inside', headerShown: false }}
         />
         <InsideStack.Screen
           name="Chart"
@@ -156,9 +158,6 @@ const App = () => {
       </InsideStack.Navigator>
     );
   };
-
-
-
 
   function createTabOutside() {
     if (displays.length !== 0) {
@@ -195,7 +194,7 @@ const App = () => {
               key={"nav", sensor[0].sensor_id}
               name={sensor[0].sensor}
               component={Chart}
-              options={{ title: sensor.name, user: user, }}
+              options={{ title: sensor.name }}
               initialParams={sensor}
             />
           )}
@@ -212,7 +211,7 @@ const App = () => {
         <OutsideStack.Screen
           name="Outside"
           component={Outside}
-          options={{ title: 'Outside', user: user, headerShown: false }}
+          options={{ title: 'Outside', headerShown: false }}
         />
         <OutsideStack.Screen
           name="Chart"
@@ -232,19 +231,24 @@ const App = () => {
     };
   };
 
+  const updateSite = (newSite) => {
+    setSite(newSite);
+  }
+
   useEffect(() => {
-    let unmounted = false;
+    let isCancelled = false;
     getDisplays();
-    return () => { unmounted = true };
+    return () => { isCancelled = true };
   }, []);
 
   useEffect(() => {
-    let unmounted = false;
+    let isCancelled = false;
     createSiteStack();
     createInsideStack();
     createOutsideStack();
-    return () => { unmounted = true };
+    return () => { isCancelled = true };
   }, [displays]);
+
 
   useEffect(() => {
     SplashScreen.hide();
@@ -253,7 +257,7 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <NavBar />
+      <NavBar site={site} />
       <NavigationContainer ref={navigationRef}>
         <Tab.Navigator
           initialRouteName="Home"
@@ -271,7 +275,7 @@ const App = () => {
           <Tab.Screen
             name="Home"
             component={HomeStack}
-            options={{ title: 'Home', user: user }}
+            options={{ title: 'Home' }}
           />
           <Tab.Screen
             name="Site"

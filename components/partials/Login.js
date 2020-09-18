@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+
 import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from '../../styles/styles';
@@ -14,32 +14,32 @@ function Login(props) {
 
   const storeData = async (value) => {
     try {
-      await AsyncStorage.setItem('user', value)
-    } catch (e) {
-      // saving error
-    }
-  }
+      await AsyncStorage.setItem('user', value.userName)
+      await AsyncStorage.setItem('site', value.site)
+    } catch (error) {
+      console.error("stroe Data: ", error.message);
+    };
+  };
 
   async function handleLogin() {
     const user = { username: userName, password: password }
     const result = await User.login(user);
-
     if (!result.result) {
       setErrorMessage(result.message, "***");
     } else {
-      await storeData(userName);
+      const site = await User.getUserSite()
+      await storeData({ userName, site: site[0].name });
       setErrorMessage('');
+      props.route.params.updateSite(site[0].name)
       props.route.params.onNavigateBack();
-      props.navigation.navigate('Home')
+      props.navigation.navigate('Home1')
     };
   };
 
   return (
-    <View>
+    <View style={styles.mainBody}>
 
       <Text style={styles.error}> {errorMessage} </Text>
-
-
 
       <Text style={styles.labelField}> Username: </Text>
       <TextInput
@@ -59,7 +59,7 @@ function Login(props) {
 
       <TouchableOpacity style={styles.buttonSubmit} onPress={handleLogin}>
         <Text style={styles.buttonText}> Log In </Text>
-       </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };

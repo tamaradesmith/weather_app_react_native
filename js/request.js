@@ -80,30 +80,49 @@ const Display = {
       })
       return res.json();
     } catch (error) {
-      console.error("user Display errror ", error.message);
+      console.error("user Display error ", error.message);
     }
   },
 };
 
 const User = {
   async login(user) {
-    const res = await fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user)
-    }).catch(err => {
-      console.error("Log in", err.message);
-    });
-    return res.json()
+    try {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      }).catch(err => {
+        console.error("Log in", err.message);
+      });
+      return res.json()
+    } catch (error) {
+      console.error("login error ", error.message);
+    }
   },
   async getUser() {
-    const res = await fetch(`${BASE_URL}/auth/`, {
-      credentials: 'include',
-    });
-    return res.json();
+    try {
+      const res = await fetch(`${BASE_URL}/auth/`, {
+        credentials: 'include',
+      });
+      return res.json();
+    } catch (error) {
+      console.error("get user error ", error.message);
+
+    }
+  },
+  async getUserSite() {
+    try {
+      const res = await fetch(`${BASE_URL}/sites/user`, {
+        credentials: 'include',
+      });
+      return res.json();
+    } catch (error) {
+      console.error("get user site error ", error.message);
+    };
   },
 };
 

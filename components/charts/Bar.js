@@ -24,6 +24,7 @@ function Bar(props) {
       result.push(parseFloat(reading.sum));
       labels.push(format(new Date(reading.time), "ha"));
     });
+    // console.log("formateData BAR-> result", result);
 
     const datas = {
       labels: labels,
@@ -34,16 +35,31 @@ function Bar(props) {
       ],
       barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
     };
-    setDataset(datas);
-    setTimeout(() => {
+    return datas
+    // setDataset(datas);
 
-      setLoading(false);
-    }, 150);
   };
 
   useEffect(() => {
+    let isCancelled = false;
+    const getData = () => {
+      try {
+          const data = formateData();
+          if (!isCancelled) {
+            setDataset(data);
+          }
+      } catch (error) {
+        console.error("chart formate data: ", error.message);
+      }
+    }
     if (data !== null || data !== undefined) {
-      formateData();
+      getData();
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
+    };
+    return () => {
+      isCancelled = true;
     };
   }, [data]);
 
