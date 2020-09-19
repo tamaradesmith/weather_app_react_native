@@ -8,12 +8,28 @@ import { format } from 'date-fns';
 
 function Bar(props) {
 
-  const { sensor, data } = props
+  const { data, period } = props
 
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
 
 
+  function getLabelFormate(date) {
+    switch (parseInt(period)) {
+      case 1:
+        return format(new Date(date), "ha");
+      case 7:
+        return format(new Date(date), "iiii");
+      case 30:
+        return format(new Date(date), "dd");
+      case 365:
+        return format(new Date(date), "MMM");
+      default:
+        break;
+    };
+  };
+
+  
   function formateData() {
     const labels = [];
     const result = [];
@@ -22,9 +38,8 @@ function Bar(props) {
         reading.sum = 0
       }
       result.push(parseFloat(reading.sum));
-      labels.push(format(new Date(reading.time), "ha"));
+      labels.push(getLabelFormate(reading.time));
     });
-    // console.log("formateData BAR-> result", result);
 
     const datas = {
       labels: labels,

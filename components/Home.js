@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from '../styles/styles';
 
 function Home(props) {
-  console.log("Home -> props", props.route);
 
   const [user, setUser] = useState('');
 
@@ -15,9 +14,9 @@ function Home(props) {
       await AsyncStorage.removeItem('user');
       await AsyncStorage.removeItem('site');
       setUser('guest');
-      props.route.params.updateSite('')
+      props.route.params.updateSite(' ');
     } catch (error) {
-     console.error("remove Value : ", error.message );
+     console.error("Remove value error: ", error.message );
     };
   };
 

@@ -5,8 +5,7 @@ import { LineChart } from 'react-native-chart-kit'
 import { format } from 'date-fns';
 
 function Line(props) {
-  const { sensor, data, period } = props
-  // console.log("Line -> data", data);
+  const { data, period } = props
 
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,9 +26,9 @@ function Line(props) {
   };
 
   function formateData() {
-    // console.log("line formateData ", data)
     const labels = [];
     const result = [];
+    console.log("formateData -> data", data);
     data.forEach((reading) => {
       if (reading.value === null) {
         reading.value = 0
@@ -55,7 +54,6 @@ function Line(props) {
     const getData = () => {
       try {
         const dataInfo = formateData();
-        // console.log("getData -> data", dataInfo);
         if (!isCancelled) {
           setDataset(dataInfo)
           setTimeout(() => {
@@ -73,10 +71,6 @@ function Line(props) {
       isCancelled = true;
     };
   }, [data]);
-
-  // useEffect(()=> {
-  //   console.log("dataa eefect ", data)
-  // })
 
   if (loading) {
     return (<Text> Loading </Text>)

@@ -18,7 +18,6 @@ function Chart(props) {
   const [active, setActive] = useState({ name: sensors[0].name, sensor_id: sensors[0].sensor_id, chart: 'line', sensor: sensors[0].sensor, type: sensors[0].type });
   const [data, setData] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   const timePeriods = [{ name: 'day', period: 1 }, { name: 'week', period: 7 }, { name: 'month', period: 30 }, { name: 'year', period: 365 }]
 
@@ -45,14 +44,9 @@ function Chart(props) {
     try {
       const readings = await Sensor.getReadings(id, period);
       return readings;
-      // setData(readings);
     } catch (error) {
       console.error("getData ", error.message);
     }
-  }
-
-  function changePeriod() {
-    getSensor(active.sensor_id, currentPeriod);
   }
 
   function setupSensors(sensorInfo) {
@@ -63,16 +57,12 @@ function Chart(props) {
   };
 
   useEffect(() => {
-    setLoading(true)
     let isCancelled = false;
     const getDataInfo = async () => {
       try {
         const readings = await getSensor(active.sensor_id, 1);
         if (!isCancelled) {
           setData(readings)
-          setTimeout(() => {
-            setLoading(false);
-          }, 150);
         }
       } catch (error) {
         console.error(error.message);
@@ -85,16 +75,20 @@ function Chart(props) {
   }, [active]);
 
   useEffect(() => {
-    let unmounted = false;
-    changePeriod();
-    return () => { unmounted = true };
+    let isCancelled = false;
+    const updateData = async () => {
+      try {
+        const readings = await getSensor(active.sensor_id, currentPeriod);
+        if (!isCancelled) {
+          setData(readings)
+        }
+      } catch (error) {
+        console.error("update peroid: ", error.message);
+      };
+    };
+    updateData();
+    return () => { isCancelled = true };
   }, [currentPeriod]);
-
-
-// useEffect(()=>{
-// console.log('data use Effect ',data)
-// },[data])
-
 
   return (
     <View style={styles.mainBody}>
@@ -113,7 +107,6 @@ function Chart(props) {
                     style={active.name === sensor.name ? chartStyles.active : chartStyles.inactive}>
                     {(sensor.name).includes('Inside') ? (
                       <Text style={chartStyles.buttonText}>
-                {  console.log("Chart -> sensor", sensor)}
                         inside
                       </Text>
                     ) : (

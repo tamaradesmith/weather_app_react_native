@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar, LogBox } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -40,12 +40,14 @@ const App = () => {
           component={Home}
           options={{ title: 'Home1', headerShown: false }}
           initialParams={{ updateSite }}
+
         />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: 'Log In', headerShown: false }}
           initialParams={{ updateSite }}
+
         />
       </Stack.Navigator>
     );
@@ -243,6 +245,7 @@ const App = () => {
 
   useEffect(() => {
     let isCancelled = false;
+
     createSiteStack();
     createInsideStack();
     createOutsideStack();
@@ -253,6 +256,10 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   return (
     <>
